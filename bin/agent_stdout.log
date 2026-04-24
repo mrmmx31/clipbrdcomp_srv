@@ -56311,4 +56311,8 @@ Gtk-Message: 02:53:47.294: Failed to load module "atk-bridge": 'gtk_module_displ
 [NetClient] Connect failed: Connect to 127.0.0.1:6543 failed.
 [NetClient] Connect failed: Connect to 127.0.0.1:6543 failed.
 [NetClient] Connect failed: Connect to 127.0.0.1:6543 failed.
-[NetClient] Connect failed: Connect to 127.0.0.1:6543
+[NetClient] Connect failed: Connect to 127.0.0.1:6543 failed.
+[NetClient] Connect failed: Connect to 127.0.0.1:6543 failed.
+[NetClient] Connect failed: Connect to 127.0.0.1:6543 failed.
+[NetClient] Connect failed: Connect to 127.0.0.1:6543 failed.
+[NetClient] Connect failed: Connect to 127.0.0.1:6543 failed.
