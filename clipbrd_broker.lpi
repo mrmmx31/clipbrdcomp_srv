@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <CompatibilityMode Value="True"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="clipbrd_broker"/>
+    </General>
+    <BuildModes Count="2">
+      <Item1 Name="Debug" Default="True"/>
+      <Item2 Name="Release"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default">
+          <local>
+            <CommandLineParams Value="--config broker.ini"/>
+            <WorkingDirectory Value="$(ProjPath)"/>
+          </local>
+        </Mode0>
+      </Modes>
+    </RunParams>
+    <Units Count="15">
+      <Unit0>
+        <Filename Value="clipbrd_broker.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="broker_server.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="broker_session.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="broker_router.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="broker_registry.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="broker_db.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="broker_config.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="broker_logger.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../protocol/cbprotocol.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../protocol/cbhash.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="../protocol/cbmessage.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="../protocol/cbuuid.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="../protocol/cbcrc32.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="../compat/image_convert.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="../compat/text_convert.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target>
+      <Filename Value="clipbrd_broker"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../protocol;../compat"/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <UseAnsiStrings Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <RangeChecks Value="True"/>
+      </Checks>
+      <Optimizations>
+        <OptimizationLevel Value="1"/>
+      </Optimizations>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <DebugInfoType Value="dsDwarf3"/>
+        <UseHeaptrc Value="True"/>
+      </Debugging>
+    </Linking>
+    <Other>
+      <CustomOptions Value="-k-lsqlite3"/>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <BuildModes>
+    <Item Name="Debug" Default="True"/>
+    <Item Name="Release">
+      <CompilerOptions>
+        <Version Value="11"/>
+        <Target>
+          <Filename Value="clipbrd_broker"/>
+        </Target>
+        <SearchPaths>
+          <IncludeFiles Value="$(ProjOutDir)"/>
+          <OtherUnitFiles Value="../protocol;../compat"/>
+          <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+        </SearchPaths>
+        <Parsing>
+          <SyntaxOptions>
+            <UseAnsiStrings Value="True"/>
+          </SyntaxOptions>
+        </Parsing>
+        <CodeGeneration>
+          <SmartLinkUnit Value="True"/>
+          <Checks>
+            <IOChecks Value="False"/>
+            <RangeChecks Value="False"/>
+          </Checks>
+          <Optimizations>
+            <OptimizationLevel Value="3"/>
+          </Optimizations>
+        </CodeGeneration>
+        <Linking>
+          <Debugging>
+            <GenerateDebugInfo Value="False"/>
+            <UseHeaptrc Value="False"/>
+          </Debugging>
+          <LinkSmart Value="True"/>
+        </Linking>
+        <Other>
+          <CustomOptions Value="-k-lsqlite3"/>
+          <CompilerPath Value="$(CompPath)"/>
+        </Other>
+      </CompilerOptions>
+    </Item>
+  </BuildModes>
+</CONFIG>
