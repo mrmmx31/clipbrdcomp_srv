@@ -1,0 +1,300 @@
+[2026-04-23 19:20:28] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:20:28] [INFO ] Config: broker.ini
+[2026-04-23 19:20:28] [INFO ] DB: ./broker.db
+[2026-04-23 19:20:28] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:20:28] [WARN ] INSECURE MODE ENABLED — do not expose to untrusted networks
+[2026-04-23 19:22:38] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:22:38] [INFO ] Config: broker.ini
+[2026-04-23 19:22:38] [INFO ] DB: ./broker.db
+[2026-04-23 19:22:38] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:22:38] [WARN ] INSECURE MODE ENABLED — do not expose to untrusted networks
+[2026-04-23 19:25:32] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:25:32] [INFO ] Config: broker.ini
+[2026-04-23 19:25:32] [INFO ] DB: ./broker.db
+[2026-04-23 19:25:32] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:25:32] [WARN ] INSECURE MODE ENABLED — do not expose to untrusted networks
+[2026-04-23 19:26:13] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:26:13] [INFO ] Config: broker.ini
+[2026-04-23 19:26:13] [INFO ] DB: ./broker.db
+[2026-04-23 19:26:13] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:26:13] [WARN ] INSECURE MODE ENABLED — do not expose to untrusted networks
+[2026-04-23 19:26:20] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:26:20] [INFO ] Config: broker.ini
+[2026-04-23 19:26:20] [INFO ] DB: ./broker.db
+[2026-04-23 19:26:20] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:26:20] [WARN ] INSECURE MODE ENABLED — do not expose to untrusted networks
+[2026-04-23 19:31:59] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:31:59] [INFO ] Config: broker.ini
+[2026-04-23 19:31:59] [INFO ] DB: ./broker.db
+[2026-04-23 19:31:59] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:31:59] [WARN ] INSECURE MODE ENABLED — do not expose to untrusted networks
+[2026-04-23 19:31:59] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 19:31:59] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 19:33:07] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:33:07] [INFO ] Config: broker.ini
+[2026-04-23 19:33:07] [INFO ] DB: ./broker.db
+[2026-04-23 19:33:07] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:33:07] [WARN ] INSECURE MODE ENABLED — do not expose to untrusted networks
+[2026-04-23 19:33:07] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 19:33:07] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 19:33:18] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:33:18] [INFO ] Config: broker.ini
+[2026-04-23 19:33:18] [INFO ] DB: ./broker.db
+[2026-04-23 19:33:18] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:33:18] [WARN ] INSECURE MODE ENABLED — do not expose to untrusted networks
+[2026-04-23 19:33:18] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 19:33:18] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 19:42:55] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:42:55] [INFO ] HELLO from  OS=16
+[2026-04-23 19:42:55] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:43:10] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:43:10] [INFO ] HELLO from  OS=16
+[2026-04-23 19:43:10] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:43:25] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:43:25] [INFO ] HELLO from  OS=16
+[2026-04-23 19:43:25] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:43:40] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:43:40] [INFO ] HELLO from  OS=16
+[2026-04-23 19:43:40] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:43:55] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:43:55] [INFO ] HELLO from  OS=16
+[2026-04-23 19:43:55] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:44:10] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:44:10] [INFO ] HELLO from  OS=16
+[2026-04-23 19:44:10] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:44:25] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:44:25] [INFO ] HELLO from  OS=16
+[2026-04-23 19:44:25] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:44:40] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:44:40] [INFO ] HELLO from  OS=16
+[2026-04-23 19:44:40] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:44:55] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:44:55] [INFO ] HELLO from  OS=16
+[2026-04-23 19:44:55] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:45:10] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:45:10] [INFO ] HELLO from  OS=16
+[2026-04-23 19:45:10] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:45:25] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:45:25] [INFO ] HELLO from  OS=16
+[2026-04-23 19:45:25] [WARN ] AUTH failed from 192.168.1.16
+[2026-04-23 19:45:36] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:45:36] [INFO ] Config: broker.ini
+[2026-04-23 19:45:36] [INFO ] DB: ./broker.db
+[2026-04-23 19:45:36] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:45:36] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 19:45:36] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 19:45:41] [ERROR] Server fatal: Binding of socket failed: 6543
+[2026-04-23 19:45:41] [ERROR] Server thread stopped unexpectedly
+[2026-04-23 19:45:41] [INFO ] Shutting down...
+[2026-04-23 19:45:41] [INFO ] Broker stopped cleanly.
+[2026-04-23 19:45:47] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:45:47] [INFO ] Config: broker.ini
+[2026-04-23 19:45:47] [INFO ] DB: ./broker.db
+[2026-04-23 19:45:47] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:45:47] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 19:45:47] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 19:45:51] [ERROR] Server fatal: Binding of socket failed: 6543
+[2026-04-23 19:45:51] [ERROR] Server thread stopped unexpectedly
+[2026-04-23 19:45:51] [INFO ] Shutting down...
+[2026-04-23 19:45:51] [INFO ] Broker stopped cleanly.
+[2026-04-23 19:46:26] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:46:26] [INFO ] Config: broker.ini
+[2026-04-23 19:46:26] [INFO ] DB: ./broker.db
+[2026-04-23 19:46:26] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:46:26] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 19:46:26] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 19:46:30] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:46:30] [INFO ] HELLO from  OS=16
+[2026-04-23 19:46:30] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:46:30] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:46:30] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:46:30] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:46:31] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:46:31] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:46:46] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:46:46] [INFO ] HELLO from  OS=16
+[2026-04-23 19:46:46] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:46:46] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:46:46] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:46:46] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:46:47] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:46:47] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:47:02] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:47:02] [INFO ] HELLO from  OS=16
+[2026-04-23 19:47:02] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:47:02] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:47:02] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:47:03] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:47:04] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:47:04] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:47:46] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:47:46] [INFO ] HELLO from  OS=16
+[2026-04-23 19:47:46] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:47:46] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:47:46] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:47:46] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:47:47] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:47:47] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:48:02] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:48:02] [INFO ] HELLO from  OS=16
+[2026-04-23 19:48:02] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:48:02] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:48:02] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:48:03] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:48:04] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:48:04] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:48:19] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:48:19] [INFO ] HELLO from  OS=16
+[2026-04-23 19:48:19] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:48:19] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:48:19] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:48:19] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:48:20] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:48:20] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:48:35] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:48:35] [INFO ] HELLO from  OS=16
+[2026-04-23 19:48:35] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:48:35] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:48:35] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:48:35] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:48:36] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:48:36] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:48:51] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:48:51] [INFO ] HELLO from  OS=16
+[2026-04-23 19:48:51] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:48:51] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:48:51] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:48:52] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:48:53] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:48:53] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:49:04] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:49:04] [INFO ] HELLO from  OS=16
+[2026-04-23 19:49:04] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:49:04] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:49:04] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:49:04] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:49:05] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:49:05] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:49:08] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:49:08] [INFO ] HELLO from  OS=16
+[2026-04-23 19:49:08] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:49:08] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:49:08] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:49:08] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:49:09] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:49:09] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:52:13] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:52:13] [INFO ] Config: broker.ini
+[2026-04-23 19:52:13] [INFO ] DB: ./broker.db
+[2026-04-23 19:52:13] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:52:13] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 19:52:13] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 19:52:16] [INFO ] Shutting down...
+[2026-04-23 19:53:29] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 19:53:29] [INFO ] Config: broker.ini
+[2026-04-23 19:53:29] [INFO ] DB: ./broker.db
+[2026-04-23 19:53:29] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 19:53:29] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 19:53:29] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 19:53:52] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:53:52] [INFO ] HELLO from  OS=16
+[2026-04-23 19:53:52] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:53:52] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:53:52] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:53:52] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:53:53] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:53:53] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:54:08] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:54:08] [INFO ] HELLO from  OS=16
+[2026-04-23 19:54:08] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:54:08] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:54:08] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:54:08] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:54:09] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:54:09] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:54:24] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:54:24] [INFO ] HELLO from  OS=16
+[2026-04-23 19:54:24] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:54:24] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:54:24] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:54:25] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:54:26] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:54:26] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:54:41] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:54:41] [INFO ] HELLO from  OS=16
+[2026-04-23 19:54:41] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:54:41] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:54:41] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:54:41] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:54:42] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:54:42] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:54:57] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:54:57] [INFO ] HELLO from  OS=16
+[2026-04-23 19:54:57] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:54:57] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:54:57] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:54:57] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:54:58] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:54:58] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:55:13] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:55:13] [INFO ] HELLO from  OS=16
+[2026-04-23 19:55:13] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:55:13] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:55:13] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:55:13] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:55:14] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:55:14] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:55:29] [INFO ] New connection from 192.168.1.16
+[2026-04-23 19:55:29] [INFO ] HELLO from  OS=16
+[2026-04-23 19:55:29] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 19:55:30] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 19:55:30] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 19:55:30] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 19:55:31] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:55:31] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 19:55:39] [INFO ] Shutting down...
+[2026-04-23 19:55:46] [INFO ] Broker stopped cleanly.
+[2026-04-23 20:01:24] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 20:01:24] [INFO ] Config: broker.ini
+[2026-04-23 20:01:24] [INFO ] DB: ./broker.db
+[2026-04-23 20:01:24] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 20:01:24] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 20:01:24] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 20:01:42] [INFO ] New connection from 192.168.1.16
+[2026-04-23 20:01:42] [INFO ] HELLO from  OS=16
+[2026-04-23 20:01:42] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 20:01:42] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 20:01:42] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 20:01:43] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 20:01:44] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 20:01:44] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 20:02:58] [INFO ] New connection from 192.168.1.16
+[2026-04-23 20:02:58] [INFO ] HELLO from  OS=16
+[2026-04-23 20:02:58] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 20:02:58] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 20:02:58] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 20:02:58] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 20:02:59] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 20:02:59] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 20:04:13] [INFO ] New connection from 192.168.1.16
+[2026-04-23 20:04:13] [INFO ] HELLO from  OS=16
+[2026-04-23 20:04:13] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 20:04:13] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 20:04:13] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 20:04:13] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 20:04:14] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 20:04:14] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 20:05:28] [INFO ] New connection from 192.168.1.16
+[2026-04-23 20:05:28] [INFO ] HELLO from  OS=16
+[2026-04-23 20:05:28] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 20:05:28] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 20:05:28] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 20:05:28] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 20:05:29] [INFO ] Connection lost: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 20:05:29] [INFO ] Node unregistered: ad37a0cf5dd349eda7a3229583f05118
+[2026-04-23 20:06:43] [INFO ] New connection from 192.168.1.16
+[2026-04-23 20:06:43] [INFO ] HELLO from  OS=16
+[2026-04-23 20:06:44] [INFO ] AUTH ok from 192.168.1.16
+[2026-04-23 20:06:44] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
+[2026-04-23 20:06:44] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
+[2026-04-23 20:06:44] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
