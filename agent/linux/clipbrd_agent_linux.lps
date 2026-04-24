@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <Units Count="9">
+      <Unit0>
+        <Filename Value="clipbrd_agent_linux.lpr"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="102" Y="35"/>
+        <UsageCount Value="33"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\..\protocol\cbmessage.pas"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="281"/>
+        <CursorPos X="3" Y="287"/>
+        <UsageCount Value="33"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="10" Y="16"/>
+        <UsageCount Value="33"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\win98\clipboard_win32.pas"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="56"/>
+        <CursorPos X="21" Y="71"/>
+        <UsageCount Value="33"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\win98\agent_netclient_w98.pas"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="170"/>
+        <CursorPos X="25" Y="184"/>
+        <UsageCount Value="10"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\win98\wintray_w98.pas"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="49"/>
+        <CursorPos X="55" Y="76"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\win98\agent_core_w98.pas"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="164"/>
+        <CursorPos X="25" Y="184"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="C:\lazarus\debugger\processdebugger.pp"/>
+        <UnitName Value="ProcessDebugger"/>
+        <TopLine Value="107"/>
+        <CursorPos X="14" Y="121"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\lazarus\components\turbopower_ipro\iphtml.pas"/>
+        <UnitName Value="IpHtml"/>
+        <TopLine Value="15883"/>
+        <CursorPos X="6" Y="15896"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="-1"/>
+    </General>
+    <JumpHistory HistoryIndex="-1"/>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode="default"/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

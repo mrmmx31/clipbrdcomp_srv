@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <Units Count="9">
+      <Unit0>
+        <Filename Value="..\win98\clipbrd_agent_w98.lpr"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="102" Y="35"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\..\protocol\cbmessage.pas"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="281"/>
+        <CursorPos X="3" Y="287"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="10" Y="16"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\win98\clipboard_win32.pas"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="56"/>
+        <CursorPos X="21" Y="71"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\win98\agent_netclient_w98.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="170"/>
+        <CursorPos X="25" Y="184"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\win98\wintray_w98.pas"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="49"/>
+        <CursorPos X="55" Y="76"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\win98\agent_core_w98.pas"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="164"/>
+        <CursorPos X="25" Y="184"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="C:\lazarus\debugger\processdebugger.pp"/>
+        <UnitName Value="ProcessDebugger"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="107"/>
+        <CursorPos X="14" Y="121"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\lazarus\components\turbopower_ipro\iphtml.pas"/>
+        <UnitName Value="IpHtml"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="15883"/>
+        <CursorPos X="6" Y="15896"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+    </Units>
+    <JumpHistory Count="22" HistoryIndex="21">
+      <Position1>
+        <Filename Value="..\..\protocol\cbmessage.pas"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+        <Caret Line="16" Column="10"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+        <Caret Line="28" Column="10" TopLine="13"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+        <Caret Line="25" Column="10" TopLine="10"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+        <Caret Line="16" Column="10"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+        <Caret Line="286" Column="5" TopLine="257"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+        <Caret Line="16" Column="10"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\win98\clipboard_win32.pas"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\win98\clipboard_win32.pas"/>
+        <Caret Line="71" Column="21" TopLine="56"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\win98\agent_netclient_w98.pas"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\win98\agent_netclient_w98.pas"/>
+        <Caret Line="32" Column="38" TopLine="17"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\win98\wintray_w98.pas"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\win98\wintray_w98.pas"/>
+        <Caret Line="64" Column="14" TopLine="49"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\win98\agent_core_w98.pas"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\win98\agent_core_w98.pas"/>
+        <Caret Line="184" Column="25" TopLine="169"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\win98\agent_core_w98.pas"/>
+        <Caret Line="181" Column="45" TopLine="169"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\win98\agent_core_w98.pas"/>
+        <Caret Line="184" Column="25" TopLine="169"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\win98\agent_core_w98.pas"/>
+        <Caret Line="45" Column="15" TopLine="32"/>
+      </Position19>
+      <Position20>
+        <Filename Value="..\win98\clipbrd_agent_w98.lpr"/>
+        <Caret Line="21" Column="57" TopLine="7"/>
+      </Position20>
+      <Position21>
+        <Filename Value="..\win98\agent_core_w98.pas"/>
+        <Caret Line="184" Column="25" TopLine="164"/>
+      </Position21>
+      <Position22>
+        <Filename Value="..\win98\clipbrd_agent_w98.lpr"/>
+        <Caret Line="25" Column="3" TopLine="8"/>
+      </Position22>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode="default"/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

@@ -1,0 +1,54 @@
+# agent_linux.ini — Configuração do agente ClipBrdComp para Linux/X11
+# Localização padrão: ~/.config/clipbrdcomp/agent_linux.ini
+# Ou passe como argumento: ./clipbrd_agent_linux /caminho/para/agent_linux.ini
+
+[Network]
+# IP ou hostname do broker
+broker_host=192.168.1.100
+
+# Porta TCP do broker
+broker_port=6543
+
+# Tempo entre tentativas de reconexão (segundos)
+reconnect_interval_sec=10
+
+# Intervalo de ping keepalive (segundos)
+ping_interval_sec=30
+
+[Identity]
+# UUID do nó — gerado automaticamente na primeira execução
+# Não altere após a primeira execução (será re-gerado se vazio)
+node_id=
+
+# Nome do host (deixe vazio para auto-detectar)
+hostname=
+
+[Clipboard]
+# Perfil de compatibilidade: LINUX_X11, LINUX_WAYLAND_SESSION
+profile=LINUX_X11
+
+# Grupo de sincronização ('default' = grupo padrão)
+group=default
+
+# Modo de sincronização: receive_only, send_only, bidirectional
+sync_mode=bidirectional
+
+# Intervalo de polling do clipboard (milissegundos)
+poll_interval_ms=500
+
+# Payload máximo aceito (KB)
+max_payload_kb=16384
+
+# Janela de supressão anti-loop (milissegundos)
+dedup_window_ms=800
+
+[Security]
+# Deve corresponder ao auth_token do broker
+auth_token=clipbrdcomp_secret_2025
+
+[Logging]
+# Arquivo de log (vazio = apenas stdout)
+log_file=
+
+# Nível: debug, info, warn, error
+log_level=info

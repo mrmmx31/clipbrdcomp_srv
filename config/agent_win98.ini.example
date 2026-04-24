@@ -1,0 +1,55 @@
+# agent_win98.ini — Configuração do agente ClipBrdComp para Windows 98/ME
+# Coloque no mesmo diretório do clipbrd_agent_w98.exe
+# Ou passe como argumento na linha de comando.
+
+[Network]
+# IP ou hostname do broker (endereço do computador Linux que roda o broker)
+broker_host=192.168.1.100
+
+# Porta TCP do broker
+broker_port=6543
+
+# Tempo entre tentativas de reconexão (segundos)
+reconnect_interval_sec=15
+
+# Intervalo de ping keepalive (segundos)
+ping_interval_sec=30
+
+[Identity]
+# UUID do nó — gerado automaticamente na primeira execução
+# NÃO apague após a primeira execução
+node_id=
+
+# Nome do computador (detectado automaticamente do Win32 API)
+hostname=
+
+[Clipboard]
+# Perfil de compatibilidade — não altere para Win98
+profile=WIN98_LEGACY
+
+# Grupo de sincronização
+group=default
+
+# Modo de sincronização: receive_only, send_only, bidirectional
+sync_mode=bidirectional
+
+# Codepage local de texto (1252 = Western European, padrão do Win98 BR/PT/EN)
+# 1250 = Central European, 1251 = Cyrillic, etc.
+text_codepage=1252
+
+# Payload máximo aceito (KB) — Win98 tem RAM limitada
+max_payload_kb=4096
+
+# Janela de supressão anti-loop (milissegundos)
+dedup_window_ms=800
+
+[Security]
+# Deve corresponder ao auth_token do broker
+auth_token=clipbrdcomp_secret_2025
+
+[Logging]
+# Arquivo de log (relativo ao diretório do executável)
+log_file=clipbrd_agent.log
+
+# Nível: debug, info, warn, error
+log_level=info

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <Units Count="9">
+      <Unit0>
+        <Filename Value="..\win98\clipbrd_agent_w98.lpr"/>
+        <CursorPos X="102" Y="35"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\..\protocol\cbmessage.pas"/>
+        <UnitName Value="cbmessage"/>
+        <IsVisibleTab Value="True"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="281"/>
+        <CursorPos X="3" Y="287"/>
+        <UsageCount Value="33"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\compat\image_convert.pas"/>
+        <UnitName Value="image_convert"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="1"/>
+        <CursorPos X="10" Y="16"/>
+        <UsageCount Value="33"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\win98\clipboard_win32.pas"/>
+        <UnitName Value="clipboard_win32"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="56"/>
+        <CursorPos X="21" Y="71"/>
+        <UsageCount Value="33"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\win98\agent_netclient_w98.pas"/>
+        <UnitName Value="agent_netclient_w98"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="170"/>
+        <CursorPos X="25" Y="184"/>
+        <UsageCount Value="10"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\win98\wintray_w98.pas"/>
+        <UnitName Value="wintray_w98"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="49"/>
+        <CursorPos X="55" Y="76"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\win98\agent_core_w98.pas"/>
+        <UnitName Value="agent_core_w98"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="164"/>
+        <CursorPos X="25" Y="184"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="C:\lazarus\debugger\processdebugger.pp"/>
+        <UnitName Value="ProcessDebugger"/>
+        <TopLine Value="107"/>
+        <CursorPos X="14" Y="121"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\lazarus\components\turbopower_ipro\iphtml.pas"/>
+        <UnitName Value="IpHtml"/>
+        <TopLine Value="15883"/>
+        <CursorPos X="6" Y="15896"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+    </Units>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
+  </ProjectSession>
+  <EditorMacros Count="0"/>
+</CONFIG>

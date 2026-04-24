@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\lazarus\fpc\2.6.4\bin\i386-win32\fpc.exe" Date="1162572796"/>
+  <Params Value=" -MObjFPC -Scghi -Ci -O1 -Twin32 -Pi386 -gw3 -gl -vewnhi -FiE:\clipbrdcomp_srv\agent\win98\lib\i386-win32 -FuE:\clipbrdcomp_srv\protocol -FuE:\clipbrdcomp_srv\compat -FuE:\clipbrdcomp_srv\agent\win98\ -FUE:\clipbrdcomp_srv\agent\win98\lib\i386-win32\ -l -vm5024 -oclipbrd_agent_w98.exe.exe -WG clipbrd_agent_w98.lpr"/>
+</CONFIG>

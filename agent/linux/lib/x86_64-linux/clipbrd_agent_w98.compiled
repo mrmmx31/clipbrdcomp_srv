@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1739047534"/>
+  <Params Value="-MObjFPC -Scghi -Cg -Ci -O1 -gw3 -gl -l -vewnhibq -vm5024 &apos;-Fi/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/agent/linux/lib/x86_64-linux&apos; &apos;-Fu/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/agent/linux/&apos; &apos;-Fu/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/protocol&apos; &apos;-Fu/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/compat&apos; &apos;-FU/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/agent/linux/lib/x86_64-linux/&apos; &apos;-FE/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/agent/linux/&apos; &apos;-o/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/agent/linux/clipbrd_agent_linux&apos; ../win98/clipbrd_agent_w98.lpr"/>
+  <Complete Value="False"/>
+</CONFIG>
