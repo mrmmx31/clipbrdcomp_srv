@@ -27,7 +27,21 @@ if ! command -v fpc &>/dev/null; then
   exit 1
 fi
 
-if ! ldconfig -p | grep -q libsqlite3; then
+MISSING_SQLITE=1
+if command -v ldconfig &>/dev/null; then
+  if ldconfig -p 2>/dev/null | grep -q libsqlite3; then
+    MISSING_SQLITE=0
+  fi
+else
+  # fallback: check pkg-config or common include/lib paths
+  if command -v pkg-config &>/dev/null && pkg-config --exists sqlite3 2>/dev/null; then
+    MISSING_SQLITE=0
+  elif [ -f /usr/include/sqlite3.h ] || [ -f /usr/include/sqlite3/sqlite3.h ] || [ -f /usr/lib/x86_64-linux-gnu/libsqlite3.so ] || [ -f /usr/lib/libsqlite3.so ]; then
+    MISSING_SQLITE=0
+  fi
+fi
+
+if [ "$MISSING_SQLITE" -ne 0 ]; then
   echo "ERROR: libsqlite3 not found. Install: sudo apt install libsqlite3-dev"
   exit 1
 fi
@@ -50,7 +64,8 @@ fi
 # (broker_db.pas já inclui {$LinkLib sqlite3})
 
 cd "$BROKER_DIR"
-fpc "${FPC_FLAGS[@]}" clipbrd_broker.lpr -o "$OUT_DIR/clipbrd_broker"
+# Note: fpc expects -o<file> without space, so use -o"$OUT_DIR/clipbrd_broker"
+fpc "${FPC_FLAGS[@]}" clipbrd_broker.lpr -o"$OUT_DIR/clipbrd_broker"
 
 echo ""
 echo "=== Build OK ==="

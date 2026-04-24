@@ -298,3 +298,24 @@
 [2026-04-23 20:06:44] [INFO ] Node registered: ad37a0cf5dd349eda7a3229583f05118 (WIN98_LEGACY) OS=16 Profile=WIN98_LEGACY
 [2026-04-23 20:06:44] [INFO ] ANNOUNCE: node ad37a0cf5dd349eda7a3229583f05118 profile=WIN98_LEGACY formats=0x      11
 [2026-04-23 20:06:44] [INFO ] Node ad37a0cf5dd349eda7a3229583f05118 subscribed to group 00000000000000000000000000000001 mode=2
+[2026-04-23 20:59:21] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 20:59:21] [INFO ] Config: broker.ini
+[2026-04-23 20:59:21] [INFO ] DB: ./broker.db
+[2026-04-23 20:59:21] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 20:59:21] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 20:59:21] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 20:59:46] [INFO ] Shutting down...
+[2026-04-23 21:09:06] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 21:09:06] [INFO ] Config: broker.ini
+[2026-04-23 21:09:06] [INFO ] DB: ./broker.db
+[2026-04-23 21:09:06] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 21:09:06] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 21:09:06] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 21:09:20] [INFO ] Shutting down...
+[2026-04-23 21:14:37] [INFO ] ClipBrdComp Broker starting...
+[2026-04-23 21:14:37] [INFO ] Config: broker.ini
+[2026-04-23 21:14:37] [INFO ] DB: ./broker.db
+[2026-04-23 21:14:37] [INFO ] Listen: 0.0.0.0:6543
+[2026-04-23 21:14:37] [INFO ] Broker running. Press Ctrl+C to stop.
+[2026-04-23 21:14:37] [INFO ] Broker listening on 0.0.0.0:6543
+[2026-04-23 21:14:51] [INFO ] Shutting down...

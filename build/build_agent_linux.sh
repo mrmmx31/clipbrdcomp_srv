@@ -10,6 +10,8 @@ set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 AGENT_DIR="$ROOT/agent/linux"
 OUT_DIR="$ROOT/bin"
+PROTOCOL_DIR="$ROOT/protocol"
+COMPAT_DIR="$ROOT/compat"
 
 MODE="${1:-release}"
 mkdir -p "$OUT_DIR"
@@ -23,17 +25,28 @@ if ! command -v lazbuild &>/dev/null; then
   exit 1
 fi
 
-BUILD_FLAG="--build-mode=Debug"
-if [ "$MODE" = "release" ]; then
-  BUILD_FLAG="--build-mode=Release"
+# Lazbuild: avoid passing an invalid build mode. Only pass --build-mode for debug.
+LAZBUILD_OPTS=()
+if [ "$MODE" = "debug" ]; then
+  LAZBUILD_OPTS+=("--build-mode=Debug")
 fi
 
 cd "$AGENT_DIR"
-lazbuild \
-  $BUILD_FLAG \
-  --bm="$MODE" \
-  --no-write-project \
-  clipbrd_agent_linux.lpi
+if ! lazbuild "${LAZBUILD_OPTS[@]}" --no-write-project clipbrd_agent_linux.lpi; then
+  echo "lazbuild failed — attempting direct fpc fallback build"
+  FPC_FLAGS=( -MObjFPC -Scghi -Cg -Ci -O1 -gw3 -gl -l -vewnhibq -vm5024 )
+  FPC_FLAGS+=( "-Fi$AGENT_DIR/lib/x86_64-linux" "-FU$AGENT_DIR/lib/x86_64-linux/" "-FE$AGENT_DIR/" "-Fu$AGENT_DIR" "-Fu$PROTOCOL_DIR" "-Fu$COMPAT_DIR" )
+  for p in /usr/lib/lazarus/4.0/lcl/units/x86_64-linux/gtk2 /usr/lib/lazarus/4.0/lcl/units/x86_64-linux /usr/lib/lazarus/4.0/components/lazutils/lib/x86_64-linux /usr/lib/lazarus/4.0/packager/units/x86_64-linux /usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/fcl-image; do
+    if [ -d "$p" ]; then
+      FPC_FLAGS+=( "-Fu$p" )
+    fi
+  done
+  # fpc expects -o attached (no space)
+  fpc "${FPC_FLAGS[@]}" clipbrd_agent_linux.lpr -o"$OUT_DIR/clipbrd_agent_linux" || {
+    echo "Fallback fpc build failed. Check that Lazarus/FPC and widgetset packages are installed.";
+    exit 1;
+  }
+fi
 
 # Copia o binário para bin/
 if [ -f "$AGENT_DIR/clipbrd_agent_linux" ]; then
