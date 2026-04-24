@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CONFIG>
-  <Compiler Value="/usr/bin/fpc" Date="1739047534"/>
-  <Params Value="-MObjFPC -Scghi -Cg -Cir -O1 -gw3 -gl -gh -l -vewnhibq &apos;-Fi/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/broker/lib/x86_64-linux&apos; &apos;-Fu/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/broker/&apos; &apos;-Fu/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/protocol&apos; &apos;-Fu/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/compat&apos; &apos;-FU/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/broker/lib/x86_64-linux/&apos; &apos;-FE/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/broker/&apos; &apos;-o/home/lsi/Documents/Projetos Windows 98/clipbrdcomp_srv/broker/clipbrd_broker&apos; -k-lsqlite3 clipbrd_broker.lpr"/>
-</CONFIG>

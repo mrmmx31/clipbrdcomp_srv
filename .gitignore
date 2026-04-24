@@ -1,0 +1,31 @@
+# .gitignore for ClipBrdComp Broker
+# Ignore build artifacts and local files
+
+# Build output
+lib/
+lib/**
+clipbrd_broker
+
+# Free Pascal / Lazarus
+*.o
+*.ppu
+*.compiled
+*.lrs
+*.lazpkg
+*.res
+*.lpi~
+*.lpr~
+*.lps
+
+# Logs and databases
+broker.log
+broker.db
+broker.db-shm
+broker.db-wal
+
+# Backups and IDE
+backup/
+.vscode/
+.idea/
+*~
+.DS_Store
