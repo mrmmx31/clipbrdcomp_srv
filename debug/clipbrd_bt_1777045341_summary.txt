@@ -1,0 +1,46 @@
+Resumo do backtrace: clipbrd_bt_1777045341.log
+
+Origem:
+  /tmp/clipbrd_backtraces/clipbrd_bt_1777045341.log
+  Tamanho: ~17M (capturado Apr 24 11:42)
+
+Observações principais (capturado pelo gdb):
+- Breakpoint detectado: Thread 2 hit Breakpoint 2 in fpc_reraise
+  "=== FPC_RERAISEEXCEPTION HIT ==="
+- Frame de interesse encontrado:
+  #33 0x000000000048ee33 in EXECUTE (this=0x7ffff7a7c100) at broker_server.pas:118
+    ATTEMPTS = 0
+- Muitos frames apresentam "No symbol table info available" (símbolos parciais/noisy frames).
+- Thread 1 aparece em Sleep/SYSUTILS.SLEEP (provavelmente o thread principal/loop de reinício).
+- Stress harness mostra muitos clientes com "ConnectionRefusedError" repetidos — indica churn/restart do broker durante o teste.
+
+Trechos relevantes (excerto):
+---
+Thread 2 "clipbrd_broker" hit Breakpoint 2, 0x0000000000414ce0 in fpc_reraise ()
+=== FPC_RERAISEEXCEPTION HIT ===
+...
+#33 0x000000000048ee33 in EXECUTE (this=0x7ffff7a7c100) at broker_server.pas:118
+        ATTEMPTS = 0
+...
+Thread 1 (Thread 0x7ffff7b2ce80 (LWP 2490696) "clipbrd_broker"):
+#0  0x0000000000401ba4 in SYSTEM_$$_FPSYSCALL$INT64$INT64$INT64$$INT64 ()
+#1  0x0000000000402d75 in SYSTEM_$$_FPNANOSLEEP$PTIMESPEC$PTIMESPEC$$LONGINT ()
+#2  0x00000000004be228 in .Ld15$strlab ()
+#3  0x000000000045a72d in SYSUTILS_$$_SLEEP$LONGWORD ()
+---
+
+Trecho do stress client (excerto de /tmp/gdb_stress_*.log):
+ConnectionRefusedError: [Errno 111] Connection refused
+(repetido por múltiplos publishers)
+
+Primeiras ações recomendadas (já iniciadas):
+- Inspecionar `broker_server.pas` próximo à linha 118 (accept/loop/rebind logic).
+- Verificar se sockets são corretamente fechados/recriados e se locks são liberados antes de liberar objetos.
+- Adicionar logging temporário com mensagem da exceção e contexto da thread/peer.
+- Reproduzir sob gdb (já em execução) e coletar bt "thread apply all bt full" com símbolos completos se possível.
+
+Arquivo resumido salvo em: debug/clipbrd_bt_1777045341_summary.txt
+Cópia completa do backtrace original permanece em /tmp/clipbrd_backtraces/
+
+Salvo por: lsi
+Data: 2026-04-24

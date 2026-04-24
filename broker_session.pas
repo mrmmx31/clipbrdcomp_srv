@@ -75,7 +75,21 @@ procedure RouterSessionDispatch(Session: TSessionRef; MsgType: Byte;
   const Payload: TBytes);
 begin
   if Assigned(Session) then
-    TClientSession(Session).EnqueueSend(MsgType, Payload);
+  begin
+    try
+      TClientSession(Session).EnqueueSend(MsgType, Payload);
+    except
+      on E: Exception do
+      begin
+        try
+          if Assigned(TClientSession(Session).FLogger) then
+            TClientSession(Session).FLogger.Error('Router dispatch exception for %s: %s',
+              [TClientSession(Session).PeerAddr, E.ClassName + ': ' + E.Message]);
+        except
+        end;
+      end;
+    end;
+  end;
 end;
 
 { ── Constructor / Destructor ─────────────────────────────────────────────────── }
@@ -125,11 +139,22 @@ begin
   NodeIDZero(BrokerID);
   FLock.Enter;
   try
-    WriteFrame(FSocket, MsgType, 0, BrokerID, 0, Payload);
-  except
-    FState := ssClosed;
+    try
+      WriteFrame(FSocket, MsgType, 0, BrokerID, 0, Payload);
+    except
+      on E: Exception do
+      begin
+        FState := ssClosed;
+        try
+          if Assigned(FLogger) then
+            FLogger.Error('SendFrame exception to %s: %s', [PeerAddr, E.ClassName + ': ' + E.Message]);
+        except
+        end;
+      end;
+    end;
+  finally
+    FLock.Leave;
   end;
-  FLock.Leave;
 end;
 
 procedure TClientSession.SendFrame(MsgType: Byte);
@@ -361,8 +386,14 @@ begin
     end;
   except
     on E: Exception do
-      if Assigned(FLogger) then
-        FLogger.Error('Session exception [%s]: %s', [FNodeIDHex, E.Message]);
+    begin
+      try
+        if Assigned(FLogger) then
+          FLogger.Error('Session exception [%s] peer=%s lasterror=%d: %s',
+            [FNodeIDHex, PeerAddr, FSocket.LastError, E.ClassName + ': ' + E.Message]);
+      except
+      end;
+    end;
   end;
 
   { Cleanup }

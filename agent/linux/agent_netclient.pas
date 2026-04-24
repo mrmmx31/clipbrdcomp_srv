@@ -30,6 +30,7 @@ type
     FConnected   : Boolean;
     FLastPing    : Int64;
     FPongOk      : Boolean;
+    FMissedPongs : Integer;
 
     function Connect: Boolean;
     procedure Disconnect;
@@ -79,6 +80,7 @@ begin
   FConnected  := False;
   FPongOk     := True;
   FLastPing   := 0;
+  FMissedPongs:= 0;
   FLock       := TCriticalSection.Create;
   HexToNodeID(AConfig.NodeIDHex, FNodeID);
   FreeOnTerminate := False;
@@ -104,8 +106,11 @@ begin
   try
     WriteFrame(FSocket, MsgType, 0, FNodeID, NextSeq, Payload);
   except
-    FState := ncsDisconnected;
-    FConnected := False;
+    on E: Exception do begin
+      WriteLn('[NetClient] SendFrame exception: ', E.ClassName, ': ', E.Message);
+      FState := ncsDisconnected;
+      FConnected := False;
+    end;
   end;
   FLock.Leave;
 end;
@@ -122,7 +127,7 @@ begin
   Result := False;
   try
     FSocket := TInetSocket.Create(FConfig.BrokerHost, FConfig.BrokerPort);
-    FSocket.IOTimeout := 2000;
+    FSocket.IOTimeout := 10000; { aumentar timeout de IO para tolerar latências altas }
     FState := ncsHandshake;
     Result := True;
   except
@@ -264,6 +269,7 @@ end;
 procedure TNetClient.HandlePong(const Hdr: TCBHeader; const Payload: TBytes);
 begin
   FPongOk := True;
+  FMissedPongs := 0;
 end;
 
 procedure TNetClient.HandleError(const Hdr: TCBHeader; const Payload: TBytes);
@@ -277,7 +283,11 @@ procedure TNetClient.PublishClip(FormatType: Byte; const Content: TBytes;
   const Hash: TClipHash);
 var P: TClipPublishPayload;
 begin
-  if not FConnected then Exit;
+  if not FConnected then begin
+    WriteLn('[NetClient] PublishClip skipped: not connected fmt=0x', IntToHex(FormatType,2), ' len=', IntToStr(Length(Content)));
+    Exit;
+  end;
+
   P.ClipID     := GenerateUUID;
   P.GroupID    := DefaultGroupID;
   P.FormatType := FormatType;
@@ -285,7 +295,12 @@ begin
   P.Encoding   := ENC_UTF8;
   P.Hash       := Hash;
   P.Content    := Content;
+
+  WriteLn('[NetClient] PublishClip: clipid=', NodeIDToHex(P.ClipID), ' fmt=0x', IntToHex(FormatType,2), ' len=', IntToStr(Length(Content)), ' hash=', HashToHex(Hash));
+
   SendFrameLocked(MSG_CLIP_PUBLISH, BuildClipPublishPayload(P));
+
+  WriteLn('[NetClient] CLIP_PUBLISH sent clipid=', NodeIDToHex(P.ClipID));
 end;
 
 procedure TNetClient.Execute;
@@ -323,10 +338,15 @@ begin
         Now2 := DateTimeToUnix(Now);
         if (Now2 - FLastPing) >= FConfig.PingIntervalSec then begin
           if not FPongOk then begin
-            WriteLn('[NetClient] Ping timeout');
-            Disconnect;
-            Break;
-          end;
+            Inc(FMissedPongs);
+            if FMissedPongs >= 6 then begin
+              WriteLn('[NetClient] Ping timeout (missed ', FMissedPongs, ' pongs)');
+              Disconnect;
+              Break;
+            end else
+              WriteLn('[NetClient] Ping missed (', FMissedPongs, '), waiting');
+          end else
+            FMissedPongs := 0;
           FPongOk := False;
           SendFrameLocked(MSG_PING);
           FLastPing := Now2;

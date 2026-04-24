@@ -1,0 +1,8 @@
+total 28
+drwxrwxr-x  7 lsi lsi 4096 Apr 23 23:46 .
+drwxrwxr-x  4 lsi lsi 4096 Apr 23 23:46 ..
+drwxrwxr-x 23 lsi lsi 4096 Apr 23 23:46 lazarus
+drwxrwxr-x  3 lsi lsi 4096 Apr 23 23:46 ProgramData
+drwxrwxr-x  6 lsi lsi 4096 Apr 23 23:46 Program Files
+drwxrwxr-x  4 lsi lsi 4096 Apr 23 23:46 users
+drwxrwxr-x 17 lsi lsi 4096 Apr 23 23:46 windows

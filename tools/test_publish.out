@@ -1,0 +1,10 @@
+Connecting to 127.0.0.1 6543
+Sent HELLO
+Recv msg 0x2 seq 0
+Sent AUTH
+Recv after AUTH msg 0x4 len 2
+Sent ANNOUNCE
+Recv after ANNOUNCE msg 0x6 len 1
+Sent CLIP_PUBLISH: SYNTH-E2E-1777006681
+Incoming msg 0x12 len 17
+Done

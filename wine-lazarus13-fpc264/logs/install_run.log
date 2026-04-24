@@ -1,0 +1,6 @@
+WINEPREFIX=/home/lsi/.wine-lazarus13-fpc264
+Trying installer with: /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+Installer exited 0 with /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+FPC_EXE=/home/lsi/.wine-lazarus13-fpc264/drive_c/lazarus/fpc/2.6.4/bin/i386-win32/fpc.exe
+LAZBUILD=/home/lsi/.wine-lazarus13-fpc264/drive_c/lazarus/lazbuild.exe
+Building project with lazbuild: Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\clipbrd_agent_w98.lpi

@@ -83,9 +83,17 @@ begin
   try
     if Clipboard.HasFormat(PredefinedClipboardFormat(pcfText)) then begin
       Text := Clipboard.AsText;
+      WriteLn('[Clipboard] GetClipboardText: HasFormat=true len=', IntToStr(Length(Text)));
+      Result := True;
+    end else begin
+      WriteLn('[Clipboard] GetClipboardText: HasFormat=false; attempting AsText fallback');
+      { Fallback: some widgetsets may not report HasFormat correctly — try reading AsText anyway }
+      Text := Clipboard.AsText;
+      WriteLn('[Clipboard] GetClipboardText: Fallback AsText len=', IntToStr(Length(Text)));
       Result := True;
     end;
   except
+    WriteLn('[Clipboard] GetClipboardText: exception');
     Result := False;
   end;
 end;
@@ -102,13 +110,16 @@ var
 begin
   Result := False;
   SetLength(PNGData, 0);
-  if not ClipboardHasImage then Exit;
+  { Alguns widgetsets não reportam corretamente HasFormat para imagens.
+    Tenta extrair a imagem independentemente do HasFormat — se o bitmap
+    resultante for vazio, aborta. }
 
   Bmp := TBitmap.Create;
   MS  := TMemoryStream.Create;
   Writer := TFPWriterPNG.Create;
   try
     try
+      { Tenta popular Bmp diretamente do clipboard mesmo que HasFormat falhe }
       Clipboard.Assign(Bmp);
       if (Bmp.Width = 0) or (Bmp.Height = 0) then Exit;
 
@@ -163,6 +174,9 @@ begin
   { Mudou em relação ao último conhecido? }
   if HashEqual(NewHash, FLastTextHash) then Exit;
 
+  { Debug: log novo hash detectado e tamanho (não imprime conteúdo) }
+  WriteLn('[Clipboard] PollText detected new hash=', HashToHex(NewHash), ' len=', IntToStr(Length(Content)));
+
   FLastTextHash := NewHash;
   Result := True;
 end;
@@ -179,6 +193,9 @@ begin
   Hash := NewHash;
 
   if HashEqual(NewHash, FLastImageHash) then Exit;
+
+  { Debug: log novo hash de imagem detectado }
+  WriteLn('[Clipboard] PollImage detected new hash=', HashToHex(NewHash), ' len=', IntToStr(Length(Content)));
 
   FLastImageHash := NewHash;
   Result := True;

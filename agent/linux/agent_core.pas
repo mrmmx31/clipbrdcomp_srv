@@ -121,6 +121,11 @@ var
 begin
   { Não publicar se estiver em modo receive-only }
   if FConfig.SyncMode = smRecvOnly then Exit;
+  { Debug: log that PollAndPublish is running and connection state }
+  if Assigned(FNetClient) and FNetClient.Connected then
+    WriteLn('[AgentCore] PollAndPublish: NetClient.Connected=true')
+  else
+    WriteLn('[AgentCore] PollAndPublish: NetClient.Connected=false');
   if not FNetClient.Connected then Exit;
 
   { Verifica texto }

@@ -176,7 +176,21 @@ begin
       { Envia CLIP_PUSH via callback (thread da sessão alvo) }
       PayloadBytes := BuildClipPushPayload(PushPayload);
       if Assigned(FSendProc) then
-        FSendProc(TargetNode^.SessionRef, MSG_CLIP_PUSH, PayloadBytes);
+      begin
+        try
+          FSendProc(TargetNode^.SessionRef, MSG_CLIP_PUSH, PayloadBytes);
+        except
+          on E: Exception do
+          begin
+            try
+              if Assigned(FLogger) then
+                FLogger.Error('Exception sending CLIP_PUSH to %s: %s',
+                  [TargetNode^.NodeIDHex, E.ClassName + ': ' + E.Message]);
+            except
+            end;
+          end;
+        end;
+      end;
 
       if Assigned(FLogger) then
         FLogger.Debug('CLIP_PUSH sent to %s', [TargetNode^.NodeIDHex]);

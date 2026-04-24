@@ -44,6 +44,7 @@ var
   LogLevel   : TLogLevel;
   GenerateConfig: Boolean;
   i: Integer;
+  restartAttempts: Integer;
 
 begin
   ConfigPath     := 'broker.ini';
@@ -105,11 +106,41 @@ begin
     GLogger.Info('Broker running. Press Ctrl+C to stop.');
 
     { Loop principal: aguarda sinal de encerramento }
+    restartAttempts := 0;
     while Running do begin
       Sleep(500);
       if not Server.Running then begin
-        GLogger.Error('Server thread stopped unexpectedly');
-        Running := False;
+        GLogger.Error('Server thread stopped unexpectedly — attempting restart');
+        try
+          FreeAndNil(Server);
+        except
+        end;
+        restartAttempts := restartAttempts + 1;
+        if restartAttempts <= 5 then
+        begin
+          GLogger.Info('Restart attempt %d/5', [restartAttempts]);
+          try
+            Server := TBrokerServer.Create(Registry, Router, Config, GLogger);
+            Server.Start;
+            Sleep(1000);
+            if Server.Running then
+            begin
+              GLogger.Info('Server restarted successfully');
+              restartAttempts := 0;
+              Continue;
+            end
+            else
+              GLogger.Warn('Server restart attempt %d failed', [restartAttempts]);
+          except
+            on E: Exception do
+              GLogger.Error('Server restart exception: %s', [E.ClassName + ': ' + E.Message]);
+          end;
+        end;
+        if restartAttempts > 5 then
+        begin
+          GLogger.Error('Server failed to restart after %d attempts — shutting down', [restartAttempts]);
+          Running := False;
+        end;
       end;
     end;
 

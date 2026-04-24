@@ -1,0 +1,11 @@
+Connecting to 127.0.0.1 6543
+Subscribed; listening for CLIP_PUSH...
+Incoming msg 0x2 len 9
+Incoming msg 0x4 len 2
+Incoming msg 0x6 len 1
+Incoming msg 0x51 len 34
+CLIP_PUSH received: fmt=0x01 len=20 from=43fa5008437740bc8e9b624e1b63cb51
+-- TEXT --
+ SYNTH-E2E-1777006681
+Read frame error: socket closed
+Subscriber exiting

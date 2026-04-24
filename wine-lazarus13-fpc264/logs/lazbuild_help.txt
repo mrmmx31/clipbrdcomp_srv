@@ -1,0 +1,62 @@
+
+lazbuild [options] <project/package filename or package name>
+
+Parameters:
+
+--help or -?              this help message
+
+-B or --build-all         build all files of project/package/IDE
+-r or --recursive         apply build flags (-B) to dependencies too
+-d or --skip-dependencies do not compile dependencies
+--build-ide=<options>     build IDE with packages
+-v or --version           show version and exit
+-q or --quiet             be less verbose, can be given multiple times
+--verbose                 be more verbose, can be given multiple times
+
+--add-package
+                      add package(s) to list of installed packages 
+                      (combine with --build-ide to rebuild IDE).
+--create-makefile
+                      Instead of compile package create a simple Makefile.
+
+--primary-config-path=<path>
+or --pcp=<path>
+                      primary config directory, where Lazarus stores its 
+                      config files. Default is 
+                      C:\users\lsi\AppData\Local\lazarus
+
+--secondary-config-path=<path>
+or --scp=<path>
+                      secondary config directory, where Lazarus searches 
+                      for config template files. Default is C:\lazarus
+
+--operating-system=<operating-system>
+or --os=<operating-system>
+                      override the project operating system. e.g. win32 
+                      linux. default: win32
+
+--widgetset=<widgetset>
+or --ws=<widgetset>
+                      override the project widgetset. e.g. gtk gtk2 qt 
+                      win32 carbon. default: win32
+
+--cpu=<cpu>
+                      override the project cpu. e.g. i386 x86_64 powerpc 
+                      powerpc_64 etc. default: i386
+
+--build-mode=<project/ide build mode>
+or --bm=<project/ide build mode>
+                      override the project or IDE build mode.
+
+--compiler=<ppcXXX>
+                      override the default compiler. e.g. ppc386 ppcx64 
+                      ppcppc etc. default is stored in 
+                      environmentoptions.xml
+
+--language=
+                      Override language. For example --language=de. For 
+                      possible values see files in the languages directory.
+
+--lazarusdir=<Lazarus directory>
+                      directory, to be used as a basedirectory
+

@@ -1,0 +1,57 @@
+PRJ_WIN=Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\clipbrd_agent_w98.lpi
+Running lazbuild: /home/lsi/.wine-lazarus13-fpc264/drive_c/lazarus/lazbuild.exe -B Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\clipbrd_agent_w98.lpi
+primary config path: C:\users\lsi\AppData\Local\lazarus
+TCompiler.Compile WorkingDir="Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\" CompilerFilename="C:\lazarus\fpc\2.6.4\bin\i386-win32\fpc.exe" CompilerParams=" -MObjFPC -Scghi -Ci -O1 -Twin32 -Pi386 -gw3 -gl -vewnhi "-FiZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\lib\i386-win32" "-FuZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\protocol" "-FuZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\compat" "-FuZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\" "-FUZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\lib\i386-win32\" -l -vm5024 -oclipbrd_agent_w98.exe.exe -WG clipbrd_agent_w98.lpr"
+[TCompiler.Compile] CmdLine="C:\lazarus\fpc\2.6.4\bin\i386-win32\fpc.exe -B  -MObjFPC -Scghi -Ci -O1 -Twin32 -Pi386 -gw3 -gl -vewnhi "-FiZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\lib\i386-win32" "-FuZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\protocol" "-FuZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\compat" "-FuZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\" "-FUZ:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\agent\win98\lib\i386-win32\" -l -vm5024 -oclipbrd_agent_w98.exe.exe -WG clipbrd_agent_w98.lpr"
+Hint: Start of reading config file C:\lazarus\fpc\2.6.4\bin\i386-win32\fpc.cfg
+Hint: End of reading config file C:\lazarus\fpc\2.6.4\bin\i386-win32\fpc.cfg
+Free Pascal Compiler version 2.6.4 [2014/10/11] for i386
+Copyright (c) 1993-2014 by Florian Klaempfl and others
+Target OS: Win32 for i386
+Compiling clipbrd_agent_w98.lpr
+Compiling agentlog_w98.pas
+Compiling agent_config_w98.pas
+Compiling Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\protocol\cbuuid.pas
+Compiling Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\protocol\cbprotocol.pas
+cbprotocol.pas(236,13) Hint: Variable "N" does not seem to be initialized
+cbprotocol.pas(221,25) Note: Local variable "C" not used
+cbprotocol.pas(264,13) Hint: Variable "N" does not seem to be initialized
+cbprotocol.pas(269,18) Hint: Function result variable does not seem to be initialized
+cbprotocol.pas(275,18) Hint: Function result variable does not seem to be initialized
+cbuuid.pas(69,18) Hint: Function result variable does not seem to be initialized
+Compiling agent_core_w98.pas
+Compiling Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\protocol\cbhash.pas
+cbhash.pas(49,18) Hint: Function result variable does not seem to be initialized
+cbhash.pas(57,18) Hint: Function result variable does not seem to be initialized
+cbhash.pas(112,13) Hint: Variable "H" does not seem to be initialized
+cbhash.pas(125,18) Hint: Function result variable does not seem to be initialized
+Compiling Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\protocol\cbmessage.pas
+Compiling Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\protocol\cbcrc32.pas
+cbmessage.pas(213,13) Hint: Variable "N" does not seem to be initialized
+cbmessage.pas(223,13) Hint: Variable "H" does not seem to be initialized
+cbmessage.pas(314,18) Hint: Variable "Header" does not seem to be initialized
+cbmessage.pas(339,29) Hint: Local variable "CRCBuf" does not seem to be initialized
+Compiling clipboard_win32.pas
+Compiling Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\compat\text_convert.pas
+Compiling image_convert.pas
+Compiling agent_netclient_w98.pas
+Compiling Z:\home\lsi\Documents\Projetos Windows 98\clipbrdcomp_srv\compat\compat_profiles.pas
+Compiling wintray_w98.pas
+wintray_w98.pas(63,15) Hint: Local variable "NID" does not seem to be initialized
+wintray_w98.pas(91,14) Hint: Local variable "Pt" does not seem to be initialized
+wintray_w98.pas(193,14) Hint: Local variable "WC" does not seem to be initialized
+wintray_w98.pas(210,15) Hint: Local variable "NID" does not seem to be initialized
+wintray_w98.pas(228,15) Hint: Local variable "NID" does not seem to be initialized
+agent_netclient_w98.pas(175,16) Hint: Local variable "Addr" does not seem to be initialized
+agent_netclient_w98.pas(228,3) Note: Local variable "AnnPld" not used
+agent_netclient_w98.pas(350,40) Hint: Local variable "WsaData" does not seem to be initialized
+agent_core_w98.pas(15,34) Hint: Unit "cbuuid" not used in agent_core_w98
+clipbrd_agent_w98.lpr(105,64) Hint: Conversion between ordinals and pointers is not portable
+clipbrd_agent_w98.lpr(105,21) Hint: Conversion between ordinals and pointers is not portable
+clipbrd_agent_w98.lpr(116,27) Hint: Variable "Msg" does not seem to be initialized
+clipbrd_agent_w98.lpr(46,3) Note: Local variable "GPrevWndProc" is assigned but never used
+Linking clipbrd_agent_w98.exe.exe
+3165 lines compiled, 0.3 sec , 268080 bytes code, 45100 bytes data
+26 hint(s) issued
+3 note(s) issued
+[TCompiler.Compile] end
