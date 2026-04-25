@@ -276,7 +276,7 @@ procedure TNetClient.HandleError(const Hdr: TCBHeader; const Payload: TBytes);
 var P: TErrorPayload;
 begin
   if ParseErrorPayload(Payload, P) then
-    WriteLn('[NetClient] ERROR from broker: code=', P.ErrorCode, ' msg=', P.Msg);
+    WriteLn(StdErr, '[NetClient] ERROR from broker: code=', P.ErrorCode, ' msg=', P.Msg);
 end;
 
 procedure TNetClient.PublishClip(FormatType: Byte; const Content: TBytes;
@@ -284,7 +284,7 @@ procedure TNetClient.PublishClip(FormatType: Byte; const Content: TBytes;
 var P: TClipPublishPayload;
 begin
   if not FConnected then begin
-    WriteLn('[NetClient] PublishClip skipped: not connected fmt=0x', IntToHex(FormatType,2), ' len=', IntToStr(Length(Content)));
+    WriteLn(StdErr, '[NetClient] PublishClip skipped: not connected fmt=0x', IntToHex(FormatType,2), ' len=', IntToStr(Length(Content)));
     Exit;
   end;
 
@@ -296,11 +296,11 @@ begin
   P.Hash       := Hash;
   P.Content    := Content;
 
-  WriteLn('[NetClient] PublishClip: clipid=', NodeIDToHex(P.ClipID), ' fmt=0x', IntToHex(FormatType,2), ' len=', IntToStr(Length(Content)), ' hash=', HashToHex(Hash));
+  WriteLn(StdErr, '[NetClient] PublishClip: fmt=0x', IntToHex(FormatType,2), ' len=', IntToStr(Length(Content)), ' hash=', HashToHex(Hash));
 
   SendFrameLocked(MSG_CLIP_PUBLISH, BuildClipPublishPayload(P));
 
-  WriteLn('[NetClient] CLIP_PUBLISH sent clipid=', NodeIDToHex(P.ClipID));
+  WriteLn(StdErr, '[NetClient] CLIP_PUBLISH sent');
 end;
 
 procedure TNetClient.Execute;

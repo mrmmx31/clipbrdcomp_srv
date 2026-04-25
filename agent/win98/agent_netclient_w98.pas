@@ -370,9 +370,11 @@ begin
       if ReadFrame(FStream, Hdr, Payload) then begin
         HandleFrame(Hdr, Payload);
       end else begin
-        { Verifica se foi timeout (WSAETIMEDOUT) ou desconexão real }
+        { Verifica se foi timeout (WSAETIMEDOUT / WSAEWOULDBLOCK) ou desconexão real
+          Nota: Wine pode retornar WSAEWOULDBLOCK (10035) quando SO_RCVTIMEO expira
+          em vez do esperado WSAETIMEDOUT (10060). Tratamos ambos como timeout. }
         Err := WSAGetLastError;
-        if (Err = WSAETIMEDOUT) or (Err = 0) then begin
+        if (Err = WSAETIMEDOUT) or (Err = WSAEWOULDBLOCK) or (Err = 0) then begin
           { Só timeout — verifica ping }
           NowTick := GetTickCount;
           if (NowTick - FLastPingTick) >= DWORD(FConfig.PingIntervalSec * 1000) then begin

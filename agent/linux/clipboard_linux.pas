@@ -12,7 +12,7 @@ uses
   SysUtils, Classes,
   Graphics, Clipbrd, LCLIntf, LCLType,
   FPImage, FPReadPNG, FPWritePNG,
-  Process,
+  Process, BaseUnix,
   cbprotocol, cbhash, image_convert;
 
 type
@@ -32,6 +32,8 @@ type
     function GetClipboardPNG(out PNGData: TBytes): Boolean;
     { Tenta executar um comando via shell e capturar stdout; retorna True se exit=0 }
     function TryXTool(const ShellCmd: string; out Text: string): Boolean;
+    { Escreve Data no stdin de ShellCmd via arquivo temporário; retorna True se exit=0 }
+    function WriteXTool(const ShellCmd: string; const Data: TBytes): Boolean;
     function GetClipboardText(out Text: string): Boolean;
   public
     constructor Create(DedupWindowMs: Integer);
@@ -244,16 +246,56 @@ begin
   Result := True;
 end;
 
+{ Escreve Data no stdin de ShellCmd via arquivo temporário.
+  Cria /tmp/.cbwrite_<PID>, escreve, chama ShellCmd < tmpfile, deleta. }
+function TLinuxClipboard.WriteXTool(const ShellCmd: string; const Data: TBytes): Boolean;
+var
+  TmpPath : string;
+  FS      : TFileStream;
+  Dummy   : string;
+begin
+  Result  := False;
+  TmpPath := '/tmp/.cbwrite_' + IntToStr(fpGetPID);
+  try
+    FS := TFileStream.Create(TmpPath, fmCreate);
+    try
+      if Length(Data) > 0 then
+        FS.Write(Data[0], Length(Data));
+    finally
+      FS.Free;
+    end;
+    Result := TryXTool(ShellCmd + ' < "' + TmpPath + '" 2>/dev/null', Dummy);
+  except
+    Result := False;
+  end;
+  DeleteFile(TmpPath);
+end;
+
 function TLinuxClipboard.ApplyText(const Content: TBytes): Boolean;
 var Text: string;
 begin
   Result := False;
   if Length(Content) = 0 then Exit;
+  { xclip escreve no CLIPBOARD de forma confiável sem janela GDK }
+  if WriteXTool('xclip -selection clipboard -i', Content) then begin
+    FLastTextHash := HashBuffer(@Content[0], Length(Content));
+    WriteLn(StdErr, '[Clipboard] ApplyText: xclip write OK (', Length(Content), ' bytes)');
+    Result := True;
+    Exit;
+  end;
+  { Fallback: xsel }
+  if WriteXTool('xsel --clipboard --input', Content) then begin
+    FLastTextHash := HashBuffer(@Content[0], Length(Content));
+    WriteLn(StdErr, '[Clipboard] ApplyText: xsel write OK (', Length(Content), ' bytes)');
+    Result := True;
+    Exit;
+  end;
+  { Fallback final: GTK2 (pode falhar headless) }
+  WriteLn(StdErr, '[Clipboard] ApplyText: xclip/xsel falhou, tentando GTK clipboard');
   try
     SetLength(Text, Length(Content));
     Move(Content[0], Text[1], Length(Content));
     Clipboard.AsText := Text;
-    { Atualiza hash interno para não republicar }
     FLastTextHash := HashBuffer(@Content[0], Length(Content));
     Result := True;
   except
