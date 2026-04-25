@@ -46,6 +46,14 @@ type
     FPongOk      : Boolean;
     FHiddenWnd   : HWND;   { para PostMessage de volta ao thread principal }
 
+    { Fila de publicação assíncrona: UI thread só enfileira, rede envia.
+      Evita que WM_DRAWCLIPBOARD bloqueie em send() travando o message loop. }
+    FPubLock    : TCriticalSection;
+    FPubValid   : Boolean;
+    FPubFmt     : Byte;
+    FPubHash    : TClipHash;
+    FPubContent : TBytes;
+
     function CreateSocket: Boolean;
     procedure DoCloseSocket;
     function DoHandshake: Boolean;
@@ -53,6 +61,7 @@ type
     procedure HandleClipPush(const Hdr: TCBHeader; const Payload: TBytes);
     procedure HandlePong(const Hdr: TCBHeader; const Payload: TBytes);
     procedure HandleError(const Hdr: TCBHeader; const Payload: TBytes);
+    procedure FlushPendingPub;   { envia item enfileirado; só thread de rede }
 
     function NextSeq: LongWord;
     procedure SendFrameLocked(MsgType: Byte; const Payload: TBytes); overload;
@@ -117,6 +126,8 @@ begin
   FPongOk      := True;
   FLastPingTick:= 0;
   FLock        := TCriticalSection.Create;
+  FPubLock     := TCriticalSection.Create;
+  FPubValid    := False;
   HexToNodeID(AConfig.NodeIDHex, FNodeID);
   FreeOnTerminate := False;
 end;
@@ -125,6 +136,7 @@ destructor TNetClientW98.Destroy;
 begin
   DoCloseSocket;
   FLock.Free;
+  FPubLock.Free;
   inherited;
 end;
 
@@ -197,9 +209,14 @@ begin
   end;
 
   FStream := TWinSockStream.Create(FSock);
-  { Timeout de leitura via setsockopt SO_RCVTIMEO }
-  Timeout := 2000;  { 2 segundos }
+  { SO_RCVTIMEO curto: unblocks recv() a cada ~200ms para que o Execute loop
+    processe a fila de publish com baixa latência (< 200ms por clipboard) }
+  Timeout := 200;
   setsockopt(FSock, SOL_SOCKET, SO_RCVTIMEO, @Timeout, SizeOf(Timeout));
+  { SO_SNDTIMEO: safety net — impede send() de bloquear infinitamente se o
+    broker parar de ler (em condições normais send() retorna em < 1ms) }
+  Timeout := 3000;
+  setsockopt(FSock, SOL_SOCKET, SO_SNDTIMEO, @Timeout, SizeOf(Timeout));
 
   Result := True;
 end;
@@ -319,22 +336,27 @@ end;
 
 procedure TNetClientW98.PublishClip(FormatType: Byte; const Content: TBytes;
   const Hash: TClipHash);
-var P: TClipPublishPayload;
 begin
+  { Chamado do thread UI (via WM_DRAWCLIPBOARD). NUNCA chama send() aqui —
+    isso bloquearia o Win32 message loop e travaria toda a cadeia de clipboard.
+    A cadeia de clipboard é notificada via SendMessage (síncrono): qualquer
+    bloqueio aqui impede o Ctrl+C de funcionar novamente no Win98.
+    Apenas enfileira; o thread de rede envia via FlushPendingPub. }
   if not FConnected then begin
     AgentLog('[NetW98] PublishClip SKIPPED: not connected fmt=0x' + IntToHex(FormatType, 2) +
       ' size=' + IntToStr(Length(Content)));
     Exit;
   end;
-  P.ClipID       := GenerateUUID;
-  P.GroupID      := DefaultGroupID;
-  P.FormatType   := FormatType;
-  P.OrigOSFormat := $10; { CF_DIB / CF_TEXT — informativo }
-  P.Encoding     := ENC_UTF8;
-  P.Hash         := Hash;
-  P.Content      := Content;
-  SendFrameLocked(MSG_CLIP_PUBLISH, BuildClipPublishPayload(P));
-  AgentLog('[NetW98] CLIP_PUBLISH sent fmt=0x' + IntToHex(FormatType, 2) +
+  FPubLock.Enter;
+  try
+    FPubValid   := True;
+    FPubFmt     := FormatType;
+    FPubHash    := Hash;
+    FPubContent := Content;   { TBytes é ref-counted — seguro sem cópia explícita }
+  finally
+    FPubLock.Leave;
+  end;
+  AgentLog('[NetW98] PublishClip enqueued fmt=0x' + IntToHex(FormatType, 2) +
     ' size=' + IntToStr(Length(Content)));
 end;
 
@@ -342,6 +364,42 @@ procedure TNetClientW98.ForceReconnect;
 begin
   DoCloseSocket;
   { O loop Execute vai detectar FConnected=False e reconectar }
+end;
+
+procedure TNetClientW98.FlushPendingPub;
+{ Chamado exclusivamente do thread de rede — envia o item enfileirado, se houver }
+var
+  Valid   : Boolean;
+  Fmt     : Byte;
+  AHash   : TClipHash;
+  Content : TBytes;
+  P       : TClipPublishPayload;
+begin
+  FPubLock.Enter;
+  try
+    Valid := FPubValid;
+    if Valid then begin
+      Fmt         := FPubFmt;
+      AHash       := FPubHash;
+      Content     := FPubContent;   { referência contada: seguro }
+      FPubContent := nil;           { libera slot }
+      FPubValid   := False;
+    end;
+  finally
+    FPubLock.Leave;
+  end;
+  if not Valid then Exit;
+  if not FConnected then Exit;
+  P.ClipID       := GenerateUUID;
+  P.GroupID      := DefaultGroupID;
+  P.FormatType   := Fmt;
+  P.OrigOSFormat := $10;   { CF_TEXT — informativo }
+  P.Encoding     := ENC_UTF8;
+  P.Hash         := AHash;
+  P.Content      := Content;
+  SendFrameLocked(MSG_CLIP_PUBLISH, BuildClipPublishPayload(P));
+  AgentLog('[NetW98] CLIP_PUBLISH sent fmt=0x' + IntToHex(Fmt, 2) +
+    ' size=' + IntToStr(Length(Content)));
 end;
 
 procedure TNetClientW98.Execute;
@@ -373,6 +431,8 @@ begin
     FPongOk := True;
 
     while FConnected and not Terminated do begin
+      { Envia CLIP_PUBLISH enfileirado pelo thread UI (se houver) }
+      FlushPendingPub;
       if ReadFrame(FStream, Hdr, Payload) then begin
         HandleFrame(Hdr, Payload);
       end else begin
