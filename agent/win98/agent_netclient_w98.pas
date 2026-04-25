@@ -376,11 +376,14 @@ begin
       if ReadFrame(FStream, Hdr, Payload) then begin
         HandleFrame(Hdr, Payload);
       end else begin
-        { Verifica se foi timeout (WSAETIMEDOUT / WSAEWOULDBLOCK) ou desconexão real
-          Nota: Wine pode retornar WSAEWOULDBLOCK (10035) quando SO_RCVTIMEO expira
-          em vez do esperado WSAETIMEDOUT (10060). Tratamos ambos como timeout. }
+        { ReadFrame falhou: verifica se foi timeout ou desconexão real.
+          - WSAETIMEDOUT (10060) / WSAEWOULDBLOCK (10035): SO_RCVTIMEO expirou
+            (Wine retorna 10035 em vez de 10060) → continuar e checar ping
+          - Err = 0: recv() retornou 0 bytes = EOF = broker fechou a conexão
+            GRACIOSAMENTE. NÃO tratar como timeout — é desconexão real.
+          - Outros valores: erro de socket real → desconectar }
         Err := WSAGetLastError;
-        if (Err = WSAETIMEDOUT) or (Err = WSAEWOULDBLOCK) or (Err = 0) then begin
+        if (Err = WSAETIMEDOUT) or (Err = WSAEWOULDBLOCK) then begin
           { Só timeout — verifica ping }
           NowTick := GetTickCount;
           if (NowTick - FLastPingTick) >= DWORD(FConfig.PingIntervalSec * 1000) then begin
@@ -394,7 +397,10 @@ begin
             FLastPingTick := NowTick;
           end;
         end else begin
-          AgentLog('[NetW98] Connection error: ' + IntToStr(Err));
+          if Err = 0 then
+            AgentLog('[NetW98] Connection closed by broker (EOF)')
+          else
+            AgentLog('[NetW98] Connection error: ' + IntToStr(Err));
           DoCloseSocket;
           Break;
         end;
