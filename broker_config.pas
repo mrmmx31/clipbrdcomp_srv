@@ -108,6 +108,11 @@ begin
     FPingInterval  := Ini.ReadInteger('Network',  'ping_interval_sec', FPingInterval);
     FPingTimeout   := Ini.ReadInteger('Network',  'ping_timeout_sec',  FPingTimeout);
     FMaxPayloadMB  := Ini.ReadInteger('Network',  'max_payload_mb',    FMaxPayloadMB);
+    { Validate ping settings — keep sensible defaults }
+    if FPingInterval < 5 then
+      FPingInterval := 5;
+    if FPingTimeout < (FPingInterval * 2) then
+      FPingTimeout := FPingInterval * 3;
   finally Ini.Free; end;
 end;
 

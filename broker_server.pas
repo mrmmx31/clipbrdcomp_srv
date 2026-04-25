@@ -96,6 +96,9 @@ begin
 end;
 
 procedure TBrokerServer.Execute;
+var
+  attempts : Integer;
+  waitMs   : Integer;
 begin
   try
     { Do not create the listening socket here — the inner accept loop is
@@ -103,107 +106,95 @@ begin
       to nil so we don't accidentally overwrite an existing instance. }
     FServer := nil;
     FRunning := True;
+    attempts := 0;
 
-    { Start accept loop. Keep acceptor resilient: if StartAccepting raises
-      we catch, log and attempt to recreate/restart the listener unless the
-      thread was requested to terminate. This prevents a single transient
-      exception from taking the whole server down. }
-    var
-      attempts: Integer;
+    { First loop: try to create/bind the listening socket.
+      Retries with backoff on failure so transient bind errors don't kill the thread. }
+    while not Terminated do
     begin
-      attempts := 0;
       try
-        { Try to create/listen on the configured address; if bind fails keep retrying
-          until the thread is terminated. This handles transient bind conflicts. }
-        while not Terminated do
+        FServer := TInetServer.Create(FConfig.BindAddr, FConfig.Port);
+        FServer.ReuseAddress := True;
+        FServer.MaxConnections := FConfig.MaxConns;
+        FServer.OnConnect := @HandleConnection;
+        FRunning := True;
+
+        { Reset transient-attempt counter after a successful create }
+        attempts := 0;
+        if Assigned(FLogger) then
+          FLogger.Info('Broker listening on %s:%d', [FConfig.BindAddr, FConfig.Port]);
+
+        Break; { created successfully }
+      except
+        on E: Exception do
         begin
-          waitMs, waitMs2, waitMs3: Integer;
+          Inc(attempts);
+          if Assigned(FLogger) then
+            FLogger.Error('Server create/bind failed (attempt %d): %s',
+              [attempts, E.ClassName + ': ' + E.Message]);
+          waitMs := attempts * 1000;
+          if waitMs > 5000 then
+            waitMs := 5000;
+          if Assigned(FLogger) then
+            FLogger.Info('Waiting %dms before next create attempt', [waitMs]);
+          Sleep(waitMs);
+        end;
+      end;
+    end;
+
+    if not Assigned(FServer) then
+    begin
+      if Assigned(FLogger) then
+        FLogger.Error('Server could not be created — exiting acceptor thread');
+      Exit;
+    end;
+
+    { Second loop: run the accept loop.
+      On error, back off and attempt to recreate the listening socket. }
+    while not Terminated do
+    begin
+      try
+        FServer.StartAccepting;
+        { StartAccepting returned due to StopAccepting -> exit loop }
+        Break;
+      except
+        on E: Exception do
+        begin
+          Inc(attempts);
+          if Assigned(FLogger) then
+            FLogger.Error('Server accept loop error (attempt %d): %s',
+              [attempts, E.ClassName + ': ' + E.Message]);
+          waitMs := attempts * 1000;
+          if waitMs > 5000 then
+            waitMs := 5000;
+          if Assigned(FLogger) then
+            FLogger.Info('Waiting %dms before recreate attempt', [waitMs]);
+          Sleep(waitMs);
+          { Attempt to recreate the listening socket in case it's in a bad state }
           try
+            if Assigned(FServer) then
+              FreeAndNil(FServer);
             FServer := TInetServer.Create(FConfig.BindAddr, FConfig.Port);
             FServer.ReuseAddress := True;
             FServer.MaxConnections := FConfig.MaxConns;
             FServer.OnConnect := @HandleConnection;
-            FRunning := True;
-
-            { Reset transient-attempt counter after a successful create }
+            { recreate succeeded — reset attempts counter }
             attempts := 0;
             if Assigned(FLogger) then
-              FLogger.Info('Broker listening on %s:%d', [FConfig.BindAddr, FConfig.Port]);
-
-            Break; { created successfully }
+              FLogger.Info('Recreated listening socket on %s:%d',
+                [FConfig.BindAddr, FConfig.Port]);
           except
-            on E: Exception do
+            on E2: Exception do
             begin
-              Inc(attempts);
               if Assigned(FLogger) then
-                FLogger.Error('Server create/bind failed (attempt %d): %s',
-                  [attempts, E.ClassName + ': ' + E.Message]);
-              var waitMs: Integer;
-              waitMs := attempts * 1000;
-              if waitMs > 5000 then
-                waitMs := 5000;
-              if Assigned(FLogger) then
-                FLogger.Info('Waiting %dms before next create attempt', [waitMs]);
-              Sleep(waitMs);
+                FLogger.Error('Failed to recreate server after error: %s',
+                  [E2.ClassName + ': ' + E2.Message]);
+              Sleep(2000);
             end;
           end;
         end;
-
-        if not Assigned(FServer) then
-        begin
-          if Assigned(FLogger) then
-            FLogger.Error('Server could not be created — exiting acceptor thread');
-          Exit;
-        end;
-
-        { Start accept loop. Keep acceptor resilient: if StartAccepting raises
-          we catch, log and attempt to recreate/restart the listener unless the
-          thread was requested to terminate. This prevents a single transient
-          exception from taking the whole server down. }
-        while not Terminated do
-        begin
-          try
-            FServer.StartAccepting;
-            { StartAccepting returned due to StopAccepting -> exit loop }
-            Break;
-          except
-            on E: Exception do
-            begin
-              Inc(attempts);
-              if Assigned(FLogger) then
-                FLogger.Error('Server accept loop error (attempt %d): %s', [attempts, E.ClassName + ': ' + E.Message]);
-              var waitMs2: Integer;
-              waitMs2 := attempts * 1000;
-              if waitMs2 > 5000 then
-                waitMs2 := 5000;
-              if Assigned(FLogger) then
-                FLogger.Info('Waiting %dms before recreate attempt', [waitMs2]);
-              Sleep(waitMs2);
-              { Attempt to recreate the listening socket in case it's in a bad state }
-              try
-                if Assigned(FServer) then
-                  FreeAndNil(FServer);
-                FServer := TInetServer.Create(FConfig.BindAddr, FConfig.Port);
-                FServer.ReuseAddress := True;
-                FServer.MaxConnections := FConfig.MaxConns;
-                FServer.OnConnect := @HandleConnection;
-                { recreate succeeded — reset attempts counter }
-                attempts := 0;
-                if Assigned(FLogger) then
-                  FLogger.Info('Recreated listening socket on %s:%d', [FConfig.BindAddr, FConfig.Port]);
-              except
-                on E2: Exception do
-                begin
-                  if Assigned(FLogger) then
-                    FLogger.Error('Failed to recreate server after error: %s', [E2.ClassName + ': ' + E2.Message]);
-                  var waitMs3: Integer;
-                  waitMs3 := 2000;
-                  Sleep(waitMs3);
-                end;
-              end;
-            end;
-          end;
-        end;
+      end;
+    end;
   except
     on E: Exception do
     begin

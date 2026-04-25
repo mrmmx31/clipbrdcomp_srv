@@ -8,7 +8,7 @@
         <Filename Value="clipbrd_broker.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="101" Y="14"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -17,26 +17,26 @@
         <EditorIndex Value="5"/>
         <TopLine Value="22"/>
         <CursorPos Y="36"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="broker_session.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <TopLine Value="87"/>
         <CursorPos X="59" Y="109"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="broker_router.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="123"/>
         <CursorPos X="17" Y="130"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -45,7 +45,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="141"/>
         <CursorPos X="115" Y="150"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -54,18 +54,18 @@
         <EditorIndex Value="1"/>
         <TopLine Value="148"/>
         <CursorPos X="53" Y="164"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="broker_config.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="33"/>
       </Unit6>
       <Unit7>
         <Filename Value="broker_logger.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="33"/>
       </Unit7>
       <Unit8>
         <Filename Value="../protocol/cbprotocol.pas"/>
@@ -73,49 +73,49 @@
         <EditorIndex Value="6"/>
         <TopLine Value="196"/>
         <CursorPos X="19" Y="213"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
         <Filename Value="../protocol/cbhash.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="32"/>
       </Unit9>
       <Unit10>
         <Filename Value="../protocol/cbmessage.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="32"/>
       </Unit10>
       <Unit11>
         <Filename Value="../protocol/cbuuid.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="32"/>
       </Unit11>
       <Unit12>
         <Filename Value="../protocol/cbcrc32.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="32"/>
       </Unit12>
       <Unit13>
         <Filename Value="../compat/image_convert.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="32"/>
       </Unit13>
       <Unit14>
         <Filename Value="../compat/text_convert.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="32"/>
       </Unit14>
       <Unit15>
         <Filename Value=""/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit15>
       <Unit16>
         <Filename Value="/usr/share/fpcsrc/3.2.2/packages/sqlite/src/sqlite3.inc"/>
         <EditorIndex Value="7"/>
         <TopLine Value="499"/>
         <CursorPos X="37" Y="516"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="17"/>
         <Loaded Value="True"/>
       </Unit16>
     </Units>
