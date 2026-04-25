@@ -165,7 +165,11 @@ begin
   inherited Create;
   FLogger := ALogger;
   FDB := nil;
-  if sqlite3_open(PAnsiChar(AnsiString(DBPath)), @FDB) <> SQLITE_OK then begin
+  { Abre em modo FULLMUTEX: a própria libsqlite3 serializa todos os acessos
+    nesta conexão, tornando-a segura para uso compartilhado entre threads. }
+  if sqlite3_open_v2(PAnsiChar(AnsiString(DBPath)), @FDB,
+       SQLITE_OPEN_READWRITE or SQLITE_OPEN_CREATE or SQLITE_OPEN_FULLMUTEX,
+       nil) <> SQLITE_OK then begin
     if Assigned(FLogger) then
       FLogger.Error('Cannot open database: %s', [DBPath]);
     raise Exception.CreateFmt('Cannot open SQLite DB: %s', [DBPath]);
@@ -173,6 +177,8 @@ begin
   { Ativa WAL mode para melhor concorrência }
   ExecSQL('PRAGMA journal_mode=WAL');
   ExecSQL('PRAGMA foreign_keys=ON');
+  { Aumenta timeout de busy para evitar SQLITE_BUSY quando threads concorrem }
+  ExecSQL('PRAGMA busy_timeout=3000');
   InitSchema;
 end;
 

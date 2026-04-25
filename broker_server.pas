@@ -53,6 +53,8 @@ begin
 end;
 
 procedure TBrokerServer.StopServer;
+var
+  DummySock : TInetSocket;
 begin
   Terminate;
   if Assigned(FServer) then
@@ -61,6 +63,19 @@ begin
       FServer.StopAccepting(False);
     except
     end;
+
+    { fpaccept() é bloqueante e não é interrompido por StopAccepting.
+      Conecta um socket dummy a nós mesmos para que fpaccept() retorne,
+      o loop veja FStopFlag=True e saia. O StopAccepting(False) já setou
+      FStopFlag antes desta auto-conexão. }
+    DummySock := nil;
+    try
+      DummySock := TInetSocket.Create('127.0.0.1', FConfig.Port);
+    except
+    end;
+    if Assigned(DummySock) then
+      FreeAndNil(DummySock);
+
     try
       WaitFor;
     except
