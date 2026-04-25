@@ -9,7 +9,7 @@ unit broker_session;
 interface
 
 uses
-  SysUtils, Classes, SyncObjs, ssockets, sockets,
+  SysUtils, Classes, SyncObjs, ssockets, sockets, BaseUnix,
   cbprotocol, cbhash, cbmessage, cbuuid,
   broker_logger, broker_registry, broker_router, broker_config;
 
@@ -396,15 +396,33 @@ var
   Hdr        : TCBHeader;
   Payload    : TBytes;
   LastPing   : Int64;
+  HandshakeStart: Int64;
   Now2       : Int64;
+  PingIntervalSec: Integer;
+  PingTimeoutSec: Integer;
+  LPeer      : string;
+  LLastErr   : Integer;
 begin
   FSocket.IOTimeout := 1000;  { timeout de 1s para permitir ping periódico }
   LastPing := DateTimeToUnix(Now);
+  HandshakeStart := DateTimeToUnix(Now);
+
+  PingIntervalSec := FConfig.PingInterval;
+  if PingIntervalSec < 1 then
+    PingIntervalSec := 30;
+  PingTimeoutSec := FConfig.PingTimeout;
+  if PingTimeoutSec < (PingIntervalSec * 2) then
+    PingTimeoutSec := PingIntervalSec * 3;
 
   try
     while (FState <> ssClosed) and not Terminated do begin
       { Tenta ler um frame; timeout é curto para verificar pings }
       if ReadFrame(FSocket, Hdr, Payload) then begin
+        Now2 := DateTimeToUnix(Now);
+        { Reset handshake timer on any activity during handshake states }
+        if (FState in [ssHello, ssAuth, ssAnnounce]) then
+          HandshakeStart := Now2;
+
         case FState of
           ssHello:    HandleHello(Hdr, Payload);
           ssAuth:     HandleAuth(Hdr, Payload);
@@ -412,29 +430,37 @@ begin
           ssActive:   HandleActive(Hdr, Payload);
         end;
       end else begin
-        { ReadFrame falhou: timeout de I/O ou desconexão }
-        if FSocket.LastError <> 0 then begin
-          { Erro real de socket (não timeout) }
-          if Assigned(FLogger) then
+        { ReadFrame falhou: timeout de I/O, EOF ou erro real
+          - LastError = EAGAIN/EWOULDBLOCK → IOTimeout (1s), continuar
+          - LastError = 0 → EOF: cliente fechou a ligação → terminar
+          - Outros valores → erro de socket real → terminar }
+        if (FSocket.LastError <> ESysEAGAIN) and
+           (FSocket.LastError <> ESysEWOULDBLOCK) then begin
+          if (FNodeIDHex <> '') and Assigned(FLogger) then
             FLogger.Info('Connection lost: %s', [FNodeIDHex]);
           Break;
         end;
         { Timeout de I/O — verifica necessidade de ping }
         Now2 := DateTimeToUnix(Now);
         if (FState = ssActive) then begin
-          if (Now2 - LastPing) >= FConfig.PingInterval then begin
-            if not FPongReceived then begin
-              if Assigned(FLogger) then
-                FLogger.Warn('Ping timeout for %s, disconnecting', [FNodeIDHex]);
-              Break;
-            end;
+          { If a PONG hasn't been received and we've already waited longer
+            than the configured ping timeout, disconnect the peer. }
+          if (not FPongReceived) and (FPingTimer > 0) and
+             ((Now2 - FPingTimer) >= PingTimeoutSec) then begin
+            if Assigned(FLogger) then
+              FLogger.Warn('Ping timeout for %s (no PONG for %d sec), disconnecting', [FNodeIDHex, PingTimeoutSec]);
+            Break;
+          end;
+
+          { Send periodic ping every PingInterval seconds }
+          if (PingIntervalSec > 0) and ((Now2 - LastPing) >= PingIntervalSec) then begin
             SendPing;
             LastPing := Now2;
           end;
         end;
         { Timeout de handshake }
         if (FState in [ssHello, ssAuth, ssAnnounce]) then begin
-          if (Now2 - LastPing) >= HANDSHAKE_TIMEOUT_SEC then begin
+          if (Now2 - HandshakeStart) >= HANDSHAKE_TIMEOUT_SEC then begin
             if Assigned(FLogger) then
               FLogger.Warn('Handshake timeout from %s', [PeerAddr]);
             Break;
@@ -447,8 +473,22 @@ begin
     begin
       try
         if Assigned(FLogger) then
+        begin
+          LPeer := '(unknown)';
+          LLastErr := 0;
+          if Assigned(FSocket) then
+          begin
+            try
+              LPeer := PeerAddr;
+              LLastErr := FSocket.LastError;
+            except
+              LPeer := '(unknown)';
+              LLastErr := 0;
+            end;
+          end;
           FLogger.Error('Session exception [%s] peer=%s lasterror=%d: %s',
-            [FNodeIDHex, PeerAddr, FSocket.LastError, E.ClassName + ': ' + E.Message]);
+            [FNodeIDHex, LPeer, LLastErr, E.ClassName + ': ' + E.Message]);
+        end;
       except
       end;
     end;
