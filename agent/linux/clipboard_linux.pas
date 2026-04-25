@@ -124,8 +124,17 @@ end;
 
 function TLinuxClipboard.GetClipboardText(out Text: string): Boolean;
 begin
-  { xclip lê a seleção CLIPBOARD do X11 de forma confiável sem precisar
-    de janela GDK como requestor (GTK2/Lazarus Clipboard.AsText falha aqui). }
+  { Wayland: wl-paste lê diretamente do clipboard Wayland sem precisar de
+    janela em foco (ao contrário do bridge X11 que só funciona quando um
+    app XWayland está ativo). }
+  if GetEnvironmentVariable('WAYLAND_DISPLAY') <> '' then begin
+    if TryXTool('wl-paste -n 2>/dev/null', Text) then begin
+      WriteLn(StdErr, '[Clipboard] wl-paste OK, ', Length(Text), ' bytes');
+      Result := True;
+      Exit;
+    end;
+  end;
+  { X11 / XWayland fallback }
   if TryXTool('xclip -selection clipboard -o 2>/dev/null', Text) then begin
     WriteLn(StdErr, '[Clipboard] xclip OK, ', Length(Text), ' bytes');
     Result := True;
@@ -138,7 +147,7 @@ begin
     Exit;
   end;
   { Fallback final: Lazarus GTK2 clipboard }
-  WriteLn(StdErr, '[Clipboard] xclip/xsel falhou, tentando GTK clipboard');
+  WriteLn(StdErr, '[Clipboard] wl-paste/xclip/xsel falhou, tentando GTK clipboard');
   Result := False;
   Text := '';
   try
@@ -255,7 +264,7 @@ var
   Dummy   : string;
 begin
   Result  := False;
-  TmpPath := '/tmp/.cbwrite_' + IntToStr(fpGetPID);
+  TmpPath := '/tmp/.cbclip_' + IntToStr(fpGetPID);
   try
     FS := TFileStream.Create(TmpPath, fmCreate);
     try
@@ -264,11 +273,16 @@ begin
     finally
       FS.Free;
     end;
-    Result := TryXTool(ShellCmd + ' < "' + TmpPath + '" 2>/dev/null', Dummy);
+    { Usa & para rodar em background: a shell faz fork do writer e sai imediatamente.
+      Isso evita que TryXTool bloqueie em WaitOnExit esperando wl-copy ou xclip
+      terminar (eles ficam rodando como clipboard owner até alguém colar).
+      >/dev/null 2>&1 desconecta stdout/stderr do background process da pipe. }
+    Result := TryXTool(ShellCmd + ' < "' + TmpPath + '" >/dev/null 2>&1 &', Dummy);
   except
     Result := False;
   end;
-  DeleteFile(TmpPath);
+  { Não deleta TmpPath imediatamente: o processo em background pode ainda estar
+    abrindo o arquivo. Ele é sobrescrito na próxima chamada (mesmo nome/PID). }
 end;
 
 function TLinuxClipboard.ApplyText(const Content: TBytes): Boolean;
@@ -276,7 +290,17 @@ var Text: string;
 begin
   Result := False;
   if Length(Content) = 0 then Exit;
-  { xclip escreve no CLIPBOARD de forma confiável sem janela GDK }
+  { Wayland: wl-copy escreve diretamente no clipboard Wayland.
+    Rodado em background (&) via WriteXTool para não bloquear o thread de rede. }
+  if GetEnvironmentVariable('WAYLAND_DISPLAY') <> '' then begin
+    if WriteXTool('wl-copy', Content) then begin
+      FLastTextHash := HashBuffer(@Content[0], Length(Content));
+      WriteLn(StdErr, '[Clipboard] ApplyText: wl-copy write OK (', Length(Content), ' bytes)');
+      Result := True;
+      Exit;
+    end;
+  end;
+  { X11: xclip -i, também em background via WriteXTool }
   if WriteXTool('xclip -selection clipboard -i', Content) then begin
     FLastTextHash := HashBuffer(@Content[0], Length(Content));
     WriteLn(StdErr, '[Clipboard] ApplyText: xclip write OK (', Length(Content), ' bytes)');
@@ -291,7 +315,7 @@ begin
     Exit;
   end;
   { Fallback final: GTK2 (pode falhar headless) }
-  WriteLn(StdErr, '[Clipboard] ApplyText: xclip/xsel falhou, tentando GTK clipboard');
+  WriteLn(StdErr, '[Clipboard] ApplyText: wl-copy/xclip/xsel falhou, tentando GTK clipboard');
   try
     SetLength(Text, Length(Content));
     Move(Content[0], Text[1], Length(Content));

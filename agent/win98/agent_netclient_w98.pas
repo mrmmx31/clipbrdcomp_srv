@@ -321,7 +321,11 @@ procedure TNetClientW98.PublishClip(FormatType: Byte; const Content: TBytes;
   const Hash: TClipHash);
 var P: TClipPublishPayload;
 begin
-  if not FConnected then Exit;
+  if not FConnected then begin
+    AgentLog('[NetW98] PublishClip SKIPPED: not connected fmt=0x' + IntToHex(FormatType, 2) +
+      ' size=' + IntToStr(Length(Content)));
+    Exit;
+  end;
   P.ClipID       := GenerateUUID;
   P.GroupID      := DefaultGroupID;
   P.FormatType   := FormatType;
@@ -330,6 +334,8 @@ begin
   P.Hash         := Hash;
   P.Content      := Content;
   SendFrameLocked(MSG_CLIP_PUBLISH, BuildClipPublishPayload(P));
+  AgentLog('[NetW98] CLIP_PUBLISH sent fmt=0x' + IntToHex(FormatType, 2) +
+    ' size=' + IntToStr(Length(Content)));
 end;
 
 procedure TNetClientW98.ForceReconnect;
