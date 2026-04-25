@@ -91,8 +91,10 @@ begin
       WriteLn(FFile, Line);
       Flush(FFile);
     end;
-    if FConsole then
-      WriteLn(Line);
+    if FConsole then begin
+      WriteLn(StdErr, Line);
+      Flush(StdErr);
+    end;
   finally FLock.Leave; end;
 end;
 
