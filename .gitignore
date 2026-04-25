@@ -29,3 +29,18 @@ backup/
 .idea/
 *~
 .DS_Store
+# Generated build artifacts
+*.o
+*.ppu
+*.or
+# Agent/build lib directories
+agent/**/lib/
+broker/**/lib/
+# DB and logs
+broker.db*
+*.log
+*.pid
+tools/run_logs/
+debug/
+# Keep official binaries in bin
+!bin/
