@@ -339,11 +339,30 @@ begin
 end;
 
 procedure TClientSession.HandleClipPublish(const Hdr: TCBHeader; const Payload: TBytes);
-var P: TClipPublishPayload;
+var
+  P       : TClipPublishPayload;
+  Preview : string;
+  MaxPrev : Integer;
 begin
   if not ParseClipPublishPayload(Payload, P) then begin
     SendError(ERR_PROTOCOL, 'Invalid CLIP_PUBLISH payload');
     Exit;
+  end;
+  { Log de diagnóstico: mostra remetente, formato e prévia do conteúdo }
+  if Assigned(FLogger) then begin
+    if P.FormatType = FMT_TEXT_UTF8 then begin
+      if Length(P.Content) > 0 then begin
+        MaxPrev := Length(P.Content);
+        if MaxPrev > 80 then MaxPrev := 80;
+        SetLength(Preview, MaxPrev);
+        Move(P.Content[0], Preview[1], MaxPrev);
+      end else
+        Preview := '';
+      FLogger.Info('CLIP_PUBLISH from %s fmt=TEXT size=%d preview=[%s]',
+        [FNodeIDHex, Length(P.Content), Preview]);
+    end else
+      FLogger.Info('CLIP_PUBLISH from %s fmt=0x%02x size=%d',
+        [FNodeIDHex, P.FormatType, Length(P.Content)]);
   end;
   { Envia ACK imediato ao publicador }
   SendFrame(MSG_CLIP_ACK, BuildClipAckPayload(P.ClipID, ACK_APPLIED));
