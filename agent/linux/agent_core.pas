@@ -80,14 +80,14 @@ begin
   { Deduplicação: já temos este hash aplicado? }
   if HashEqual(P.Hash, FLastApplyHash) then Exit;
 
-  WriteLn('[AgentCore] CLIP_PUSH fmt=0x', IntToHex(P.FormatType, 2),
+  WriteLn(StdErr, '[AgentCore] CLIP_PUSH fmt=0x', IntToHex(P.FormatType, 2),
     ' size=', Length(P.Content), ' from=', SourceHex);
 
   case P.FormatType of
     FMT_TEXT_UTF8:  ApplyRemoteText(P.Content, P.Hash);
     FMT_IMAGE_PNG:  ApplyRemoteImage(P.Content, P.Hash);
   else
-    WriteLn('[AgentCore] Unsupported format: 0x', IntToHex(P.FormatType, 2));
+    WriteLn(StdErr, '[AgentCore] Unsupported format: 0x', IntToHex(P.FormatType, 2));
   end;
 end;
 
@@ -97,9 +97,9 @@ begin
   if FClipboard.ApplyText(Content) then begin
     FLastApplyHash := Hash;
     FClipboard.RecordApplied(Hash);  { janela de supressão }
-    WriteLn('[AgentCore] Applied text to clipboard (', Length(Content), ' bytes)');
+    WriteLn(StdErr, '[AgentCore] Applied text to clipboard (', Length(Content), ' bytes)');
   end else
-    WriteLn('[AgentCore] Failed to apply text to clipboard');
+    WriteLn(StdErr, '[AgentCore] Failed to apply text to clipboard');
 end;
 
 procedure TAgentCore.ApplyRemoteImage(const Content: TBytes; const Hash: TClipHash);
@@ -107,9 +107,9 @@ begin
   if FClipboard.ApplyImage(Content) then begin
     FLastApplyHash := Hash;
     FClipboard.RecordApplied(Hash);
-    WriteLn('[AgentCore] Applied image to clipboard (', Length(Content), ' bytes PNG)');
+    WriteLn(StdErr, '[AgentCore] Applied image to clipboard (', Length(Content), ' bytes PNG)');
   end else
-    WriteLn('[AgentCore] Failed to apply image to clipboard');
+    WriteLn(StdErr, '[AgentCore] Failed to apply image to clipboard');
 end;
 
 { ── Poll: detecta mudanças no clipboard local ─────────────────────────────────── }
@@ -131,7 +131,7 @@ begin
     if FClipboard.IsSuppressed(Hash) then Exit;
     FLastPubHash := Hash;
     FNetClient.PublishClip(FMT_TEXT_UTF8, Content, Hash);
-    WriteLn('[AgentCore] Published text (', Length(Content), ' bytes)');
+    WriteLn(StdErr, '[AgentCore] Published text (', Length(Content), ' bytes)');
   end;
 
   { Verifica imagem — apenas se suporte a imagens habilitado }
@@ -140,7 +140,7 @@ begin
     if FClipboard.IsSuppressed(Hash) then Exit;
     FLastPubHash := Hash;
     FNetClient.PublishClip(FMT_IMAGE_PNG, Content, Hash);
-    WriteLn('[AgentCore] Published image (', Length(Content), ' bytes PNG)');
+    WriteLn(StdErr, '[AgentCore] Published image (', Length(Content), ' bytes PNG)');
   end;
 end;
 
@@ -149,9 +149,9 @@ end;
 procedure TAgentCore.Run;
 begin
   FRunning := True;
-  WriteLn('[AgentCore] Starting. Node=', FConfig.NodeIDHex);
-  WriteLn('[AgentCore] Broker=', FConfig.BrokerHost, ':', FConfig.BrokerPort);
-  WriteLn('[AgentCore] Profile=', FConfig.Profile, ' Group=', FConfig.Group);
+  WriteLn(StdErr, '[AgentCore] Starting. Node=', FConfig.NodeIDHex);
+  WriteLn(StdErr, '[AgentCore] Broker=', FConfig.BrokerHost, ':', FConfig.BrokerPort);
+  WriteLn(StdErr, '[AgentCore] Profile=', FConfig.Profile, ' Group=', FConfig.Group);
 
   FNetClient.Start;
 
@@ -164,7 +164,7 @@ begin
     Sleep(FConfig.PollMs);
   end;
 
-  WriteLn('[AgentCore] Stopping...');
+  WriteLn(StdErr, '[AgentCore] Stopping...');
 end;
 
 end.

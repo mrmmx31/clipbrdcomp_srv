@@ -74,6 +74,9 @@ var
   AppInst    : HINST;
 
 begin
+  { Ignora Ctrl+C / Ctrl+Break — evita término acidental pelo Wine/terminal }
+  SetConsoleCtrlHandler(nil, True);
+
   AppInst := GetModuleHandle(nil);
 
   { Inicializa log antes de tudo }

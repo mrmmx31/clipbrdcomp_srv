@@ -41,6 +41,8 @@ if ! lazbuild "${LAZBUILD_OPTS[@]}" --no-write-project clipbrd_agent_linux.lpi; 
       FPC_FLAGS+=( "-Fu$p" )
     fi
   done
+  # Remove stale binary from agent dir so it doesn't shadow the fresh bin/ output below
+  rm -f "$AGENT_DIR/clipbrd_agent_linux"
   # fpc expects -o attached (no space)
   fpc "${FPC_FLAGS[@]}" clipbrd_agent_linux.lpr -o"$OUT_DIR/clipbrd_agent_linux" || {
     echo "Fallback fpc build failed. Check that Lazarus/FPC and widgetset packages are installed.";
@@ -48,19 +50,13 @@ if ! lazbuild "${LAZBUILD_OPTS[@]}" --no-write-project clipbrd_agent_linux.lpi; 
   }
 fi
 
-# Copia o binário para bin/
+# Copia o binário para bin/ (lazbuild coloca em $AGENT_DIR; fpc fallback coloca direto em $OUT_DIR)
 if [ -f "$AGENT_DIR/clipbrd_agent_linux" ]; then
   cp "$AGENT_DIR/clipbrd_agent_linux" "$OUT_DIR/"
-  echo ""
-  echo "=== Build OK ==="
-  echo "  Binary: $OUT_DIR/clipbrd_agent_linux"
-elif [ -f "$AGENT_DIR/lib/x86_64-linux/clipbrd_agent_linux" ]; then
-  cp "$AGENT_DIR/lib/x86_64-linux/clipbrd_agent_linux" "$OUT_DIR/"
-  echo ""
-  echo "=== Build OK ==="
-  echo "  Binary: $OUT_DIR/clipbrd_agent_linux"
-elif [ -f "$OUT_DIR/clipbrd_agent_linux" ]; then
-  # fpc fallback already placed binary directly in OUT_DIR via -o flag
+  rm -f "$AGENT_DIR/clipbrd_agent_linux"
+fi
+
+if [ -f "$OUT_DIR/clipbrd_agent_linux" ]; then
   echo ""
   echo "=== Build OK ==="
   echo "  Binary: $OUT_DIR/clipbrd_agent_linux"
