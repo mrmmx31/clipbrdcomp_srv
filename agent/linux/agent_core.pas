@@ -116,32 +116,64 @@ end;
 
 procedure TAgentCore.PollAndPublish;
 var
-  Content : TBytes;
-  Hash    : TClipHash;
+  Content  : TBytes;
+  Hash     : TClipHash;
+  Preview  : string;
+  MaxPrev  : Integer;
 begin
   { Não publicar se estiver em modo receive-only }
-  if FConfig.SyncMode = smRecvOnly then Exit;
-  if not FNetClient.Connected then Exit;
+  if FConfig.SyncMode = smRecvOnly then begin
+    WriteLn(StdErr, '[AgentCore] Poll skipped: recv-only mode');
+    Exit;
+  end;
+  if not FNetClient.Connected then begin
+    WriteLn(StdErr, '[AgentCore] Poll skipped: not connected');
+    Exit;
+  end;
 
   { Verifica texto }
   if FClipboard.PollText(Content, Hash) then begin
     { Anti-loop: este hash foi publicado recentemente por nós? }
-    if HashEqual(Hash, FLastPubHash) then Exit;
+    if HashEqual(Hash, FLastPubHash) then begin
+      WriteLn(StdErr, '[AgentCore] Text unchanged (same hash), skip publish');
+      Exit;
+    end;
     { Anti-loop: este hash acabou de ser aplicado de forma remota? }
-    if FClipboard.IsSuppressed(Hash) then Exit;
+    if FClipboard.IsSuppressed(Hash) then begin
+      WriteLn(StdErr, '[AgentCore] Text suppressed (anti-loop), skip publish');
+      Exit;
+    end;
     FLastPubHash := Hash;
+    { Preview: primeiros 80 chars }
+    if Length(Content) > 0 then begin
+      MaxPrev := Length(Content);
+      if MaxPrev > 80 then MaxPrev := 80;
+      SetLength(Preview, MaxPrev);
+      Move(Content[0], Preview[1], MaxPrev);
+    end else
+      Preview := '';
+    WriteLn(StdErr, '[AgentCore] Clipboard changed, publishing text (', Length(Content), ' bytes): [', Preview, ']');
     FNetClient.PublishClip(FMT_TEXT_UTF8, Content, Hash);
-    WriteLn(StdErr, '[AgentCore] Published text (', Length(Content), ' bytes)');
-  end;
+    WriteLn(StdErr, '[AgentCore] Published text OK (', Length(Content), ' bytes)');
+  end else
+    WriteLn(StdErr, '[AgentCore] Poll: no text change detected');
 
   { Verifica imagem — apenas se suporte a imagens habilitado }
   if FClipboard.PollImage(Content, Hash) then begin
-    if HashEqual(Hash, FLastPubHash) then Exit;
-    if FClipboard.IsSuppressed(Hash) then Exit;
+    if HashEqual(Hash, FLastPubHash) then begin
+      WriteLn(StdErr, '[AgentCore] Image unchanged (same hash), skip publish');
+      Exit;
+    end;
+    if FClipboard.IsSuppressed(Hash) then begin
+      WriteLn(StdErr, '[AgentCore] Image suppressed (anti-loop), skip publish');
+      Exit;
+    end;
     FLastPubHash := Hash;
+    WriteLn(StdErr, '[AgentCore] Clipboard changed, publishing image (', Length(Content), ' bytes PNG)');
     FNetClient.PublishClip(FMT_IMAGE_PNG, Content, Hash);
-    WriteLn(StdErr, '[AgentCore] Published image (', Length(Content), ' bytes PNG)');
-  end;
+    WriteLn(StdErr, '[AgentCore] Published image OK (', Length(Content), ' bytes PNG)');
+  end else
+    WriteLn(StdErr, '[AgentCore] Poll: no image change detected');
 end;
 
 { ── Loop principal ───────────────────────────────────────────────────────────── }

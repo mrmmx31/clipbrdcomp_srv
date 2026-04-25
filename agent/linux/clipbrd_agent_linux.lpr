@@ -28,9 +28,11 @@ var
 
 procedure SigHandler(sig: LongInt); cdecl;
 begin
-  WriteLn('Signal received — stopping agent...');
+  WriteLn(StdErr, 'Signal ', sig, ' received — stopping agent (SIGKILL)...');
   if Assigned(Core) then Core.Stop;
   Running := False;
+  { Garante encerramento imediato mesmo se o loop de poll estiver bloqueado }
+  fpKill(fpGetPID(), SIGKILL);
 end;
 
 {$IFDEF UNIX}
