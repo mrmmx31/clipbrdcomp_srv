@@ -42,6 +42,7 @@ begin
   FConfig   := AConfig;
   FLogger   := ALogger;
   FRunning  := False;
+  FServer   := nil;
   FreeOnTerminate := False;
 end;
 
@@ -54,7 +55,19 @@ end;
 procedure TBrokerServer.StopServer;
 begin
   Terminate;
-  if Assigned(FServer) then FServer.StopAccepting(False);
+  if Assigned(FServer) then
+  begin
+    try
+      FServer.StopAccepting(False);
+    except
+    end;
+    try
+      WaitFor;
+    except
+    end;
+    if Assigned(FServer) then
+      FreeAndNil(FServer);
+  end;
 end;
 
 procedure TBrokerServer.HandleConnection(Sender: TObject; Data: TSocketStream);
@@ -104,12 +117,15 @@ begin
           until the thread is terminated. This handles transient bind conflicts. }
         while not Terminated do
         begin
+          waitMs, waitMs2, waitMs3: Integer;
           try
             FServer := TInetServer.Create(FConfig.BindAddr, FConfig.Port);
             FServer.MaxConnections := FConfig.MaxConns;
             FServer.OnConnect := @HandleConnection;
             FRunning := True;
 
+            { Reset transient-attempt counter after a successful create }
+            attempts := 0;
             if Assigned(FLogger) then
               FLogger.Info('Broker listening on %s:%d', [FConfig.BindAddr, FConfig.Port]);
 
@@ -121,7 +137,13 @@ begin
               if Assigned(FLogger) then
                 FLogger.Error('Server create/bind failed (attempt %d): %s',
                   [attempts, E.ClassName + ': ' + E.Message]);
-              Sleep(1000);
+              var waitMs: Integer;
+              waitMs := attempts * 1000;
+              if waitMs > 5000 then
+                waitMs := 5000;
+              if Assigned(FLogger) then
+                FLogger.Info('Waiting %dms before next create attempt', [waitMs]);
+              Sleep(waitMs);
             end;
           end;
         end;
@@ -146,9 +168,16 @@ begin
           except
             on E: Exception do
             begin
+              Inc(attempts);
               if Assigned(FLogger) then
-                FLogger.Error('Server accept loop error: %s — retrying in 1s', [E.ClassName + ': ' + E.Message]);
-              Sleep(1000);
+                FLogger.Error('Server accept loop error (attempt %d): %s', [attempts, E.ClassName + ': ' + E.Message]);
+              var waitMs2: Integer;
+              waitMs2 := attempts * 1000;
+              if waitMs2 > 5000 then
+                waitMs2 := 5000;
+              if Assigned(FLogger) then
+                FLogger.Info('Waiting %dms before recreate attempt', [waitMs2]);
+              Sleep(waitMs2);
               { Attempt to recreate the listening socket in case it's in a bad state }
               try
                 if Assigned(FServer) then
@@ -156,12 +185,18 @@ begin
                 FServer := TInetServer.Create(FConfig.BindAddr, FConfig.Port);
                 FServer.MaxConnections := FConfig.MaxConns;
                 FServer.OnConnect := @HandleConnection;
+                { recreate succeeded — reset attempts counter }
+                attempts := 0;
+                if Assigned(FLogger) then
+                  FLogger.Info('Recreated listening socket on %s:%d', [FConfig.BindAddr, FConfig.Port]);
               except
                 on E2: Exception do
                 begin
                   if Assigned(FLogger) then
                     FLogger.Error('Failed to recreate server after error: %s', [E2.ClassName + ': ' + E2.Message]);
-                  Sleep(1000);
+                  var waitMs3: Integer;
+                  waitMs3 := 2000;
+                  Sleep(waitMs3);
                 end;
               end;
             end;
@@ -174,6 +209,9 @@ begin
         FLogger.Error('Server fatal: %s', [E.ClassName + ': ' + E.Message]);
     end;
   end;
+  { Ensure listening socket is freed on exit to avoid races with restarts }
+  if Assigned(FServer) then
+    FreeAndNil(FServer);
   FRunning := False;
   if Assigned(FLogger) then
     FLogger.Info('Server thread exiting.');

@@ -111,9 +111,16 @@ begin
       Sleep(500);
       if not Server.Running then begin
         GLogger.Error('Server thread stopped unexpectedly — attempting restart');
-        try
-          FreeAndNil(Server);
-        except
+        if Assigned(Server) then
+        begin
+          try
+            Server.StopServer;
+          except
+          end;
+          try
+            FreeAndNil(Server);
+          except
+          end;
         end;
         restartAttempts := restartAttempts + 1;
         if restartAttempts <= 5 then

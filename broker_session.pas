@@ -137,8 +137,39 @@ procedure TClientSession.SendFrame(MsgType: Byte; const Payload: TBytes);
 var BrokerID: TNodeID;
 begin
   NodeIDZero(BrokerID);
-  FLock.Enter;
-  try
+  if (FState = ssClosed) or Terminated then Exit;
+  if not Assigned(FSocket) then
+  begin
+    FState := ssClosed;
+    Exit;
+  end;
+
+  if Assigned(FLock) then
+  begin
+    FLock.Enter;
+    try
+      try
+        WriteFrame(FSocket, MsgType, 0, BrokerID, 0, Payload);
+      except
+        on E: Exception do
+        begin
+          FState := ssClosed;
+          try
+            if Assigned(FLogger) then
+              FLogger.Error('SendFrame exception to %s: %s', [PeerAddr, E.ClassName + ': ' + E.Message]);
+          except
+          end;
+        end;
+      end;
+    finally
+      try
+        FLock.Leave;
+      except
+      end;
+    end;
+  end
+  else
+  begin
     try
       WriteFrame(FSocket, MsgType, 0, BrokerID, 0, Payload);
     except
@@ -147,13 +178,11 @@ begin
         FState := ssClosed;
         try
           if Assigned(FLogger) then
-            FLogger.Error('SendFrame exception to %s: %s', [PeerAddr, E.ClassName + ': ' + E.Message]);
+            FLogger.Error('SendFrame exception (no lock) to %s: %s', [PeerAddr, E.ClassName + ': ' + E.Message]);
         except
         end;
       end;
     end;
-  finally
-    FLock.Leave;
   end;
 end;
 
@@ -183,8 +212,37 @@ end;
 { RouterSendFrame removido — substituído por RouterSessionDispatch global }
 
 procedure TClientSession.EnqueueSend(MsgType: Byte; const Payload: TBytes);
+var
+  LocalPayload: TBytes;
+  LLen: Integer;
 begin
-  SendFrame(MsgType, Payload);
+  if (FState = ssClosed) or Terminated then Exit;
+  LLen := Length(Payload);
+  if LLen > 0 then
+  begin
+    SetLength(LocalPayload, LLen);
+    try
+      Move(Payload[0], LocalPayload[0], LLen);
+    except
+      LocalPayload := nil;
+    end;
+  end
+  else
+    LocalPayload := nil;
+
+  try
+    SendFrame(MsgType, LocalPayload);
+  except
+    on E: Exception do
+    begin
+      try
+        if Assigned(FLogger) then
+          FLogger.Error('EnqueueSend failed for %s msg=0x%02x: %s', [FNodeIDHex, MsgType, E.ClassName + ': ' + E.Message]);
+      except
+      end;
+      FState := ssClosed;
+    end;
+  end;
 end;
 
 { ── Handlers de mensagem ─────────────────────────────────────────────────────── }
