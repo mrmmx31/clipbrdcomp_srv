@@ -12,6 +12,7 @@ uses
   SysUtils, Classes,
   Graphics, Clipbrd, LCLIntf, LCLType,
   FPImage, FPReadPNG, FPWritePNG,
+  Process,
   cbprotocol, cbhash, image_convert;
 
 type
@@ -29,6 +30,8 @@ type
     function GetCurrentTimeMs: Int64;
     function ClipboardHasImage: Boolean;
     function GetClipboardPNG(out PNGData: TBytes): Boolean;
+    { Tenta executar um comando via shell e capturar stdout; retorna True se exit=0 }
+    function TryXTool(const ShellCmd: string; out Text: string): Boolean;
     function GetClipboardText(out Text: string): Boolean;
   public
     constructor Create(DedupWindowMs: Integer);
@@ -77,18 +80,68 @@ begin
   end;
 end;
 
-function TLinuxClipboard.GetClipboardText(out Text: string): Boolean;
+{ Executa ShellCmd via /bin/sh e captura stdout.
+  RetornTrue se o processo sair com código 0 e tiver produzido saída. }
+function TLinuxClipboard.TryXTool(const ShellCmd: string; out Text: string): Boolean;
+var
+  P   : TProcess;
+  MS  : TMemoryStream;
+  Buf : array[0..4095] of Byte;
+  N   : Integer;
 begin
   Result := False;
+  Text   := '';
+  P  := TProcess.Create(nil);
+  MS := TMemoryStream.Create;
   try
-    if Clipboard.HasFormat(PredefinedClipboardFormat(pcfText)) then begin
-      Text := Clipboard.AsText;
-      Result := True;
-    end else begin
-      { Fallback: some widgetsets may not report HasFormat correctly }
-      Text := Clipboard.AsText;
-      Result := True;
+    try
+      P.Executable := '/bin/sh';
+      P.Parameters.Add('-c');
+      P.Parameters.Add(ShellCmd);
+      P.Options := [poUsePipes, poNoConsole];
+      P.Execute;
+      repeat
+        N := P.Output.Read(Buf, SizeOf(Buf));
+        if N > 0 then MS.Write(Buf[0], N);
+      until N <= 0;
+      P.WaitOnExit;
+      if P.ExitCode = 0 then begin
+        MS.Position := 0;
+        SetLength(Text, MS.Size);
+        if MS.Size > 0 then MS.Read(Text[1], MS.Size);
+        Result := True;
+      end;
+    except
+      Result := False;
     end;
+  finally
+    MS.Free;
+    P.Free;
+  end;
+end;
+
+function TLinuxClipboard.GetClipboardText(out Text: string): Boolean;
+begin
+  { xclip lê a seleção CLIPBOARD do X11 de forma confiável sem precisar
+    de janela GDK como requestor (GTK2/Lazarus Clipboard.AsText falha aqui). }
+  if TryXTool('xclip -selection clipboard -o 2>/dev/null', Text) then begin
+    WriteLn(StdErr, '[Clipboard] xclip OK, ', Length(Text), ' bytes');
+    Result := True;
+    Exit;
+  end;
+  { Fallback: xsel }
+  if TryXTool('xsel --clipboard --output 2>/dev/null', Text) then begin
+    WriteLn(StdErr, '[Clipboard] xsel OK, ', Length(Text), ' bytes');
+    Result := True;
+    Exit;
+  end;
+  { Fallback final: Lazarus GTK2 clipboard }
+  WriteLn(StdErr, '[Clipboard] xclip/xsel falhou, tentando GTK clipboard');
+  Result := False;
+  Text := '';
+  try
+    Text := Clipboard.AsText;
+    Result := True;
   except
     Result := False;
   end;
