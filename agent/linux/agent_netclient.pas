@@ -8,7 +8,7 @@ unit agent_netclient;
 interface
 
 uses
-  SysUtils, Classes, SyncObjs, ssockets,
+  SysUtils, StrUtils, Classes, SyncObjs, ssockets, BaseUnix,
   cbprotocol, cbhash, cbmessage, cbuuid,
   agent_config;
 
@@ -107,7 +107,7 @@ begin
     WriteFrame(FSocket, MsgType, 0, FNodeID, NextSeq, Payload);
   except
     on E: Exception do begin
-      WriteLn('[NetClient] SendFrame exception: ', E.ClassName, ': ', E.Message);
+      WriteLn(StdErr, '[NetClient] SendFrame exception: ', E.ClassName, ': ', E.Message);
       FState := ncsDisconnected;
       FConnected := False;
     end;
@@ -133,7 +133,7 @@ begin
   except
     on E: Exception do begin
       FSocket := nil;
-      WriteLn('[NetClient] Connect failed: ', E.Message);
+      WriteLn(StdErr, '[NetClient] Connect failed: ', E.Message);
     end;
   end;
 end;
@@ -206,7 +206,7 @@ begin
 
   FState := ncsActive;
   FConnected := True;
-  WriteLn('[NetClient] Connected and active. NodeID=', FConfig.NodeIDHex);
+  WriteLn(StdErr, '[NetClient] Connected and active. NodeID=', FConfig.NodeIDHex);
   Result := True;
 end;
 
@@ -234,7 +234,7 @@ begin
     end;
     MSG_ERROR:        HandleError(Hdr, Payload);
     MSG_GOODBYE: begin
-      WriteLn('[NetClient] Server sent GOODBYE');
+      WriteLn(StdErr, '[NetClient] Server sent GOODBYE');
       FState := ncsDisconnected;
       FConnected := False;
     end;
@@ -309,6 +309,7 @@ var
   Payload: TBytes;
   Now2   : Int64;
 begin
+  try
   while not Terminated do begin
     { Conecta }
     if not Connect then begin
@@ -317,7 +318,7 @@ begin
     end;
     { Handshake }
     if not DoHandshake then begin
-      WriteLn('[NetClient] Handshake failed, retrying in ', FConfig.ReconnectSec, 's');
+      WriteLn(StdErr, '[NetClient] Handshake failed, retrying in ', FConfig.ReconnectSec, 's');
       Disconnect;
       Sleep(FConfig.ReconnectSec * 1000);
       Continue;
@@ -329,8 +330,13 @@ begin
       if ReadFrame(FSocket, Hdr, Payload) then begin
         HandleFrame(Hdr, Payload);
       end else begin
-        if (FSocket = nil) or (FSocket.LastError <> 0) then begin
-          WriteLn('[NetClient] Connection lost');
+        { EAGAIN/EWOULDBLOCK = IOTimeout expirou, continuar
+          LastError = 0 = EOF; outros = erro real → desligar }
+        if (FSocket = nil) or
+           ((FSocket.LastError <> ESysEAGAIN) and
+            (FSocket.LastError <> ESysEWOULDBLOCK)) then begin
+          WriteLn(StdErr, '[NetClient] Connection lost (LastError=',
+            IfThen(FSocket <> nil, IntToStr(FSocket.LastError), 'nil'), ')');
           Disconnect;
           Break;
         end;
@@ -340,11 +346,11 @@ begin
           if not FPongOk then begin
             Inc(FMissedPongs);
             if FMissedPongs >= 6 then begin
-              WriteLn('[NetClient] Ping timeout (missed ', FMissedPongs, ' pongs)');
+              WriteLn(StdErr, '[NetClient] Ping timeout (missed ', FMissedPongs, ' pongs)');
               Disconnect;
               Break;
             end else
-              WriteLn('[NetClient] Ping missed (', FMissedPongs, '), waiting');
+              WriteLn(StdErr, '[NetClient] Ping missed (', FMissedPongs, '), waiting');
           end else
             FMissedPongs := 0;
           FPongOk := False;
@@ -355,6 +361,10 @@ begin
     end;
     if not Terminated then
       Sleep(FConfig.ReconnectSec * 1000);
+  end;
+  except
+    on E: Exception do
+      WriteLn(StdErr, '[NetClient] FATAL exception in Execute: ', E.ClassName, ': ', E.Message);
   end;
 end;
 

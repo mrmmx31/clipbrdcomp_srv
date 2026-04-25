@@ -53,6 +53,10 @@ begin
   { Parseia argumentos }
   for i := 1 to ParamCount do begin
     if ParamStr(i) = '--gen-config' then GenerateConfig := True
+    else if (ParamStr(i) = '--help') or (ParamStr(i) = '-h') then begin
+      WriteLn('Usage: clipbrd_broker [--config <path>] [--gen-config] [--help]');
+      Halt(0);
+    end
     else if ParamStr(i) = '--config' then begin
       if i + 1 <= ParamCount then ConfigPath := ParamStr(i + 1);
     end;

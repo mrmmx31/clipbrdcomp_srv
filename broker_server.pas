@@ -120,6 +120,7 @@ begin
           waitMs, waitMs2, waitMs3: Integer;
           try
             FServer := TInetServer.Create(FConfig.BindAddr, FConfig.Port);
+            FServer.ReuseAddress := True;
             FServer.MaxConnections := FConfig.MaxConns;
             FServer.OnConnect := @HandleConnection;
             FRunning := True;
@@ -183,6 +184,7 @@ begin
                 if Assigned(FServer) then
                   FreeAndNil(FServer);
                 FServer := TInetServer.Create(FConfig.BindAddr, FConfig.Port);
+                FServer.ReuseAddress := True;
                 FServer.MaxConnections := FConfig.MaxConns;
                 FServer.OnConnect := @HandleConnection;
                 { recreate succeeded — reset attempts counter }

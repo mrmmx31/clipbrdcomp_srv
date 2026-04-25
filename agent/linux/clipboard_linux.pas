@@ -83,17 +83,13 @@ begin
   try
     if Clipboard.HasFormat(PredefinedClipboardFormat(pcfText)) then begin
       Text := Clipboard.AsText;
-      WriteLn('[Clipboard] GetClipboardText: HasFormat=true len=', IntToStr(Length(Text)));
       Result := True;
     end else begin
-      WriteLn('[Clipboard] GetClipboardText: HasFormat=false; attempting AsText fallback');
-      { Fallback: some widgetsets may not report HasFormat correctly — try reading AsText anyway }
+      { Fallback: some widgetsets may not report HasFormat correctly }
       Text := Clipboard.AsText;
-      WriteLn('[Clipboard] GetClipboardText: Fallback AsText len=', IntToStr(Length(Text)));
       Result := True;
     end;
   except
-    WriteLn('[Clipboard] GetClipboardText: exception');
     Result := False;
   end;
 end;
@@ -174,9 +170,6 @@ begin
   { Mudou em relação ao último conhecido? }
   if HashEqual(NewHash, FLastTextHash) then Exit;
 
-  { Debug: log novo hash detectado e tamanho (não imprime conteúdo) }
-  WriteLn('[Clipboard] PollText detected new hash=', HashToHex(NewHash), ' len=', IntToStr(Length(Content)));
-
   FLastTextHash := NewHash;
   Result := True;
 end;
@@ -193,9 +186,6 @@ begin
   Hash := NewHash;
 
   if HashEqual(NewHash, FLastImageHash) then Exit;
-
-  { Debug: log novo hash de imagem detectado }
-  WriteLn('[Clipboard] PollImage detected new hash=', HashToHex(NewHash), ' len=', IntToStr(Length(Content)));
 
   FLastImageHash := NewHash;
   Result := True;

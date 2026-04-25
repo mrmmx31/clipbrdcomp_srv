@@ -59,6 +59,11 @@ elif [ -f "$AGENT_DIR/lib/x86_64-linux/clipbrd_agent_linux" ]; then
   echo ""
   echo "=== Build OK ==="
   echo "  Binary: $OUT_DIR/clipbrd_agent_linux"
+elif [ -f "$OUT_DIR/clipbrd_agent_linux" ]; then
+  # fpc fallback already placed binary directly in OUT_DIR via -o flag
+  echo ""
+  echo "=== Build OK ==="
+  echo "  Binary: $OUT_DIR/clipbrd_agent_linux"
 else
   echo "Binary not found in expected location, check build output above."
   exit 1
