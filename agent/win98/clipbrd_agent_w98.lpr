@@ -52,6 +52,10 @@ begin
       if Assigned(GCore) then GCore.OnApplyPendingClip;
       Result := 0;
     end;
+    WM_AGENT_FORCEPUB: begin
+      if Assigned(GCore) then GCore.ForcePublishClip;
+      Result := 0;
+    end;
     WM_AGENT_STOP: begin
       if Assigned(GCore) then GCore.Stop;
       DestroyHiddenWindow;

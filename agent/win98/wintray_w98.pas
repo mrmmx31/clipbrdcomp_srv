@@ -18,13 +18,15 @@ const
   WM_AGENT_STOP       = WM_USER + 4;  { parar agente }
   WM_AGENT_CONNCHANGE = WM_USER + 5;  { wParam: 1=conectado, 0=desconectado }
   WM_AGENT_RECONNECT  = WM_USER + 6;  { forçar reconexão }
+  WM_AGENT_FORCEPUB   = WM_USER + 7;  { forçar envio do clipboard atual }
 
   TRAY_ID = 1;
 
   { IDs dos itens do menu de contexto }
   MENU_SHOWLOG   = 1001;
   MENU_RECONNECT = 1002;
-  MENU_EXIT      = 1003;
+  MENU_FORCEPUB  = 1003;
+  MENU_EXIT      = 1004;
 
 type
   TClipChangeNotify = procedure; stdcall;
@@ -100,6 +102,7 @@ begin
 
   AppendMenuA(Menu, MF_STRING, MENU_SHOWLOG,   'Ver Log...');
   AppendMenuA(Menu, MF_SEPARATOR, 0, nil);
+  AppendMenuA(Menu, MF_STRING, MENU_FORCEPUB,  'Enviar área de transferência agora');
   AppendMenuA(Menu, MF_STRING, MENU_RECONNECT, 'Reconectar');
   AppendMenuA(Menu, MF_SEPARATOR, 0, nil);
   AppendMenuA(Menu, MF_STRING, MENU_EXIT,      'Sair');
@@ -159,6 +162,8 @@ begin
             MessageBoxA(AWnd, 'Log file not configured.',
               'ClipBrdComp', MB_OK or MB_ICONINFORMATION);
         end;
+        MENU_FORCEPUB:
+          PostMessage(AWnd, WM_AGENT_FORCEPUB, 0, 0);
         MENU_RECONNECT:
           PostMessage(AWnd, WM_AGENT_RECONNECT, 0, 0);
         MENU_EXIT:

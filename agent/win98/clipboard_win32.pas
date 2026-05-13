@@ -44,6 +44,9 @@ type
     { Getters de último hash (para comparação no loop) }
     function GetLastTextHash: TClipHash;
     function GetLastImageHash: TClipHash;
+
+    { Zera hashes internos para forçar re-leitura na próxima chamada }
+    procedure ResetHashes;
   end;
 
 implementation
@@ -273,5 +276,11 @@ begin Result := FLastTextHash; end;
 
 function TClipWin32.GetLastImageHash: TClipHash;
 begin Result := FLastImageHash; end;
+
+procedure TClipWin32.ResetHashes;
+begin
+  FLastTextHash  := ZeroHash;
+  FLastImageHash := ZeroHash;
+end;
 
 end.

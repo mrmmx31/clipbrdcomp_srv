@@ -57,6 +57,7 @@ type
     procedure Start;
     procedure Stop;
     procedure ForceReconnect;
+    procedure ForcePublishClip;  { zera dedup e republica clipboard atual }
   end;
 
 implementation
@@ -198,6 +199,16 @@ end;
 procedure TAgentCoreW98.ForceReconnect;
 begin
   FNetClient.ForceReconnect;
+end;
+
+procedure TAgentCoreW98.ForcePublishClip;
+begin
+  { Zera todos os hashes de deduplication para que a próxima leitura
+    do clipboard seja tratada como conteúdo novo, mesmo que seja igual. }
+  FLastPubHash := ZeroHash;
+  FClipboard.ResetHashes;
+  AgentLog('[CoreW98] ForcePublishClip: hashes zerados, relendo clipboard...');
+  OnClipboardChanged;
 end;
 
 end.
